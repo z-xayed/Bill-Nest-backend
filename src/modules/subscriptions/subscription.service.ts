@@ -1,6 +1,7 @@
 import { Types } from 'mongoose';
 import { AppError } from '../../common/errors/AppError';
 import { generateRef } from '../../common/utils/generateRef';
+import { getPagination } from '../../common/utils/pagination';
 import { logger } from '../../config/logger';
 import {
   cancelStripeSubscriptionAtPeriodEnd,
@@ -13,6 +14,7 @@ import { User } from '../users/user.model';
 import {
   CancelSubscriptionPayload,
   PurchaseSubscriptionPayload,
+  SubscriptionStatus,
   UpgradeSubscriptionPayload,
 } from './subscription.interface';
 import { Subscription } from './subscription.model';
@@ -274,5 +276,41 @@ export const cancelSubscription = async (
   return {
     subscription: currentSubscription,
     message: 'Subscription cancellation scheduled successfully',
+  };
+};
+
+export const getAllSubscribedUsers = async (query: Record<string, unknown>) => {
+  const { page, limit, skip } = getPagination(query);
+  const activeLikeStatuses: SubscriptionStatus[] = [
+    'active',
+    'canceling',
+    'pending',
+    'past_due',
+    'incomplete',
+  ];
+
+  const filter = {
+    isCurrent: true,
+    status: { $in: activeLikeStatuses },
+  };
+
+  const [subscriptions, total] = await Promise.all([
+    Subscription.find(filter)
+      .populate('userId', 'name email role status isEmailVerified createdAt')
+      .populate('planId', 'name slug price currency interval isActive')
+      .sort({ createdAt: -1 })
+      .skip(skip)
+      .limit(limit),
+    Subscription.countDocuments(filter),
+  ]);
+
+  return {
+    subscriptions,
+    meta: {
+      page,
+      limit,
+      total,
+      totalPages: total === 0 ? 0 : Math.ceil(total / limit),
+    },
   };
 };

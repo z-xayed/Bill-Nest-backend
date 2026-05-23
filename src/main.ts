@@ -4,6 +4,15 @@ import { connectDB } from './config/db';
 import { env } from './config/env';
 import { logger } from './config/logger';
 
+const handleUnhandledRejection = (reason: unknown): void => {
+  logger.error('Unhandled Rejection', reason);
+};
+
+const handleUncaughtException = (error: Error): void => {
+  logger.error('Uncaught Exception', error);
+  process.exit(1);
+};
+
 const startServer = async (): Promise<void> => {
   await connectDB();
 
@@ -25,13 +34,7 @@ const startServer = async (): Promise<void> => {
   process.on('SIGINT', () => shutdown('SIGINT'));
 };
 
-process.on('unhandledRejection', (reason) => {
-  logger.error('Unhandled Rejection', reason);
-});
-
-process.on('uncaughtException', (error) => {
-  logger.error('Uncaught Exception', error);
-  process.exit(1);
-});
+process.on('unhandledRejection', handleUnhandledRejection);
+process.on('uncaughtException', handleUncaughtException);
 
 void startServer();

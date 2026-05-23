@@ -19,3 +19,10 @@ export const cancelSubscriptionValidationSchema = z.object({
     cancelAtPeriodEnd: z.boolean().optional().default(true),
   }),
 });
+
+export const subscribedUsersQueryValidationSchema = z.object({
+  query: z.object({
+    page: z.coerce.number().int().min(1).optional(),
+    limit: z.coerce.number().int().min(1).optional(),
+  }),
+});

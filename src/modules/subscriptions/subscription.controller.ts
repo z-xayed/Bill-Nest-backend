@@ -3,6 +3,7 @@ import httpStatus from 'http-status';
 import { sendSuccess } from '../../common/utils/apiResponse';
 import {
   cancelSubscription,
+  getAllSubscribedUsers,
   getCurrentSubscription,
   purchaseSubscription,
   upgradeSubscription,
@@ -38,4 +39,9 @@ export const cancelSubscriptionController = async (req: Request, res: Response) 
   return sendSuccess(res, httpStatus.OK, result.message, {
     subscription: result.subscription,
   });
+};
+
+export const getAllSubscribedUsersController = async (_req: Request, res: Response) => {
+  const result = await getAllSubscribedUsers(_req.query as Record<string, unknown>);
+  return sendSuccess(res, httpStatus.OK, 'Subscribed users retrieved successfully', result);
 };

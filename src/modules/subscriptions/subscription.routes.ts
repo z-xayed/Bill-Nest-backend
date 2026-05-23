@@ -1,9 +1,11 @@
 import { Router } from 'express';
 import { authMiddleware } from '../../common/middlewares/auth.middleware';
+import { requireRole } from '../../common/middlewares/role.middleware';
 import { validateRequest } from '../../common/middlewares/validate.middleware';
 import { asyncHandler } from '../../common/utils/asyncHandler';
 import {
   cancelSubscriptionController,
+  getAllSubscribedUsersController,
   getCurrentSubscriptionController,
   purchaseSubscriptionController,
   upgradeSubscriptionController,
@@ -11,10 +13,19 @@ import {
 import {
   cancelSubscriptionValidationSchema,
   purchaseSubscriptionValidationSchema,
+  subscribedUsersQueryValidationSchema,
   upgradeSubscriptionValidationSchema,
 } from './subscription.validation';
 
 const router = Router();
+
+router.get(
+  '/subscribed-users',
+  authMiddleware,
+  requireRole('admin'),
+  validateRequest(subscribedUsersQueryValidationSchema),
+  asyncHandler(getAllSubscribedUsersController),
+);
 
 router.post(
   '/purchase',
