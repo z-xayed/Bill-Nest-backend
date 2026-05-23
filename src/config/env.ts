@@ -6,22 +6,17 @@ dotenv.config();
 const envSchema = z.object({
   NODE_ENV: z.enum(['development', 'production', 'test']).default('development'),
   PORT: z.coerce.number().int().positive().default(5000),
-  MONGODB_URI: z.string().min(1),
-  CORS_ORIGIN: z.string().default('*'),
-  JWT_ACCESS_SECRET: z
-    .string()
-    .min(32, 'JWT_ACCESS_SECRET should be at least 32 characters'),
-  JWT_ACCESS_EXPIRES_IN: z.string().default('15m'),
-  JWT_REFRESH_SECRET: z
-    .string()
-    .min(32, 'JWT_REFRESH_SECRET should be at least 32 characters'),
-  JWT_REFRESH_EXPIRES_IN: z.string().default('30d'),
-  JWT_ISSUER: z.string().default('sub-z-api'),
-  JWT_AUDIENCE: z.string().default('sub-z-client'),
-  STRIPE_SECRET_KEY: z.string().min(1),
-  STRIPE_WEBHOOK_SECRET: z.string().min(1),
-  STRIPE_API_VERSION: z.enum(['2026-04-22.dahlia']).default('2026-04-22.dahlia'),
-  LOG_LEVEL: z.string().default('info'),
+  MONGO_URI: z.string().min(1),
+  CLIENT_URL: z.string().url(),
+  JWT_ACCESS_SECRET: z.string().min(32),
+  JWT_ACCESS_EXPIRES_IN: z.string().min(1),
+  JWT_REFRESH_SECRET: z.string().min(32),
+  JWT_REFRESH_EXPIRES_IN: z.string().min(1),
+  BCRYPT_SALT_ROUNDS: z.coerce.number().int().min(8).max(15).default(12),
+  EMAIL_VERIFICATION_TOKEN_SECRET: z.string().min(32),
+  EMAIL_VERIFICATION_TOKEN_EXPIRES_IN: z.string().min(1),
+  PASSWORD_RESET_TOKEN_SECRET: z.string().min(32),
+  PASSWORD_RESET_TOKEN_EXPIRES_IN: z.string().min(1),
 });
 
 const parsed = envSchema.safeParse(process.env);

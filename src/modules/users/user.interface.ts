@@ -1,20 +1,24 @@
+import { Types } from 'mongoose';
 
-export type UserRole = "admin" | "client";
-export type UserStatus = "active" | "blocked" | "deleted";
+export type UserRole = 'admin' | 'client';
+export type UserStatus = 'active' | 'blocked' | 'deleted';
 
 export interface IUser {
-    name: string;
-    email: string;
-    passwordHash: string;
-    role: UserRole;
-    status: UserStatus;
-    isEmailVerified: boolean;
-    stripeCustomerId?: string;
-    lastLoginAt?: Date;
-    passwordChangedAt?: Date;
-    createdAt: Date;
-    updatedAt: Date;
+  _id: Types.ObjectId;
+  name: string;
+  email: string;
+  passwordHash: string;
+  role: UserRole;
+  status: UserStatus;
+  isEmailVerified: boolean;
+  emailVerifiedAt?: Date;
+  emailVerificationTokenHash?: string;
+  emailVerificationTokenExpiresAt?: Date;
+  passwordResetTokenHash?: string;
+  passwordResetTokenExpiresAt?: Date;
+  passwordChangedAt?: Date;
+  stripeCustomerId?: string;
+  lastLoginAt?: Date;
+  createdAt: Date;
+  updatedAt: Date;
 }
-
-export type IUserRole = UserRole;
-export type IUserStatus = UserStatus;

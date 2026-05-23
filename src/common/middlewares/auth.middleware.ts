@@ -1,33 +1,36 @@
-import { RequestHandler } from 'express';
-import jwt from 'jsonwebtoken';
-import { env } from '../../config/env';
+import type { RequestHandler } from 'express';
 import { AppError } from '../errors/AppError';
-import { ERROR_CODES } from '../errors/errorCodes';
+import { verifyAccessToken } from '../../modules/auth/auth.utils';
+import { User } from '../../modules/users/user.model';
 
-export type AuthUser = {
-  userId: string;
-  role: 'admin' | 'client';
-  iat?: number;
-  exp?: number;
-};
-
-export const auth: RequestHandler = (req, _res, next) => {
+export const authMiddleware: RequestHandler = async (req, _res, next) => {
   const authHeader = req.headers.authorization;
-  const token = authHeader?.startsWith('Bearer ')
-    ? authHeader.split(' ')[1]
-    : undefined;
+  const token = authHeader?.startsWith('Bearer ') ? authHeader.split(' ')[1] : undefined;
 
   if (!token) {
-    return next(
-      new AppError('Unauthorized access', 401, ERROR_CODES.UNAUTHORIZED),
-    );
+    return next(new AppError('Authentication required', 401, 'AUTH_REQUIRED'));
   }
 
   try {
-    const decoded = jwt.verify(token, env.JWT_ACCESS_SECRET) as AuthUser;
-    req.user = decoded;
+    const payload = verifyAccessToken(token);
+    const user = await User.findById(payload.userId).select('email role status');
+
+    if (!user) {
+      return next(new AppError('Invalid token', 401, 'INVALID_TOKEN'));
+    }
+
+    if (user.status !== 'active') {
+      return next(new AppError('User is not active', 403, 'USER_NOT_ACTIVE'));
+    }
+
+    req.user = {
+      userId: user._id.toString(),
+      email: user.email,
+      role: user.role,
+    };
+
     return next();
-  } catch {
-    return next(new AppError('Invalid token', 401, ERROR_CODES.UNAUTHORIZED));
+  } catch (error) {
+    return next(error);
   }
 };

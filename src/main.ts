@@ -1,20 +1,37 @@
-import app from './app/app';
-import { connectDatabase } from './config/database';
+import http from 'http';
+import app from './app';
+import { connectDB } from './config/db';
 import { env } from './config/env';
 import { logger } from './config/logger';
 
 const startServer = async (): Promise<void> => {
-  try {
-    await connectDatabase();
+  await connectDB();
 
-    app.listen(env.PORT, () => {
-      logger.info(`Server running on port ${env.PORT}`);
+  const server = http.createServer(app);
+
+  server.listen(env.PORT, () => {
+    logger.info(`Bill-Nest API is running on port ${env.PORT}`);
+  });
+
+  const shutdown = (signal: string): void => {
+    logger.warn(`Received ${signal}. Shutting down gracefully...`);
+    server.close(() => {
+      logger.info('HTTP server closed');
+      process.exit(0);
     });
-  } catch (error) {
-    logger.error('Failed to start server', error);
-    process.exit(1);
-  }
+  };
+
+  process.on('SIGTERM', () => shutdown('SIGTERM'));
+  process.on('SIGINT', () => shutdown('SIGINT'));
 };
 
-void startServer();
+process.on('unhandledRejection', (reason) => {
+  logger.error('Unhandled Rejection', reason);
+});
 
+process.on('uncaughtException', (error) => {
+  logger.error('Uncaught Exception', error);
+  process.exit(1);
+});
+
+void startServer();

@@ -1,13 +1,14 @@
-import type { AuthUser } from '../common/middlewares/auth.middleware';
+export {};
 
 declare global {
   namespace Express {
     interface Request {
-      user?: AuthUser;
+      user?: {
+        userId: string;
+        email: string;
+        role: 'admin' | 'client';
+      };
+      requestId?: string;
     }
   }
 }
-
-export {};
-
-

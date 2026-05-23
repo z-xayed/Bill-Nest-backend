@@ -3,27 +3,15 @@ import path from 'path';
 import winston from 'winston';
 import { env } from './env';
 
-const { combine, timestamp, errors, json, colorize, printf } = winston.format;
-
-const devFormat = combine(
-  colorize(),
-  timestamp(),
-  errors({ stack: true }),
-  printf(({ level, message, timestamp: logTime, stack }) => {
-    return `${logTime} [${level}] ${stack ?? message}`;
-  }),
-);
-
-const prodFormat = combine(timestamp(), errors({ stack: true }), json());
-
 const logsDir = path.resolve(process.cwd(), 'logs');
 if (!fs.existsSync(logsDir)) {
   fs.mkdirSync(logsDir, { recursive: true });
 }
 
 export const logger = winston.createLogger({
-  level: env.LOG_LEVEL,
-  format: env.NODE_ENV === 'production' ? prodFormat : devFormat,
+  level: env.NODE_ENV === 'production' ? 'info' : 'debug',
+  defaultMeta: { service: 'bill-nest-api' },
+  format: winston.format.combine(winston.format.timestamp(), winston.format.json()),
   transports: [
     new winston.transports.Console(),
     new winston.transports.File({
