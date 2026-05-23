@@ -7,6 +7,8 @@ import {
   getPlanByIdOrSlug,
   getPlans,
   restorePlan,
+  syncMissingPlansWithStripe,
+  syncPlanWithStripe,
   updatePlan,
 } from './plan.service';
 
@@ -38,4 +40,14 @@ export const deletePlanController = async (req: Request, res: Response) => {
 export const restorePlanController = async (req: Request, res: Response) => {
   const result = await restorePlan(String(req.params.id), req.user!.userId);
   return sendSuccess(res, httpStatus.OK, 'Plan restored successfully', result);
+};
+
+export const syncPlanWithStripeController = async (req: Request, res: Response) => {
+  const result = await syncPlanWithStripe(String(req.params.id), req.user!.userId);
+  return sendSuccess(res, httpStatus.OK, 'Plan synced with Stripe successfully', result);
+};
+
+export const syncMissingPlansWithStripeController = async (req: Request, res: Response) => {
+  const result = await syncMissingPlansWithStripe(req.user!.userId);
+  return sendSuccess(res, httpStatus.OK, 'Plans synced with Stripe successfully', result);
 };

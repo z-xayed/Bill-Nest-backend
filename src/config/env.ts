@@ -17,6 +17,10 @@ const envSchema = z.object({
   EMAIL_VERIFICATION_TOKEN_EXPIRES_IN: z.string().min(1),
   PASSWORD_RESET_TOKEN_SECRET: z.string().min(32),
   PASSWORD_RESET_TOKEN_EXPIRES_IN: z.string().min(1),
+  STRIPE_SECRET_KEY: z.string().min(1),
+  STRIPE_WEBHOOK_SECRET: z.string().min(1),
+  CLIENT_SUCCESS_URL: z.string().url(),
+  CLIENT_CANCEL_URL: z.string().url(),
 });
 
 const parsed = envSchema.safeParse(process.env);

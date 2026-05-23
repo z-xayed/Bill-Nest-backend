@@ -18,7 +18,6 @@ import {
   changePasswordValidationSchema,
   forgotPasswordValidationSchema,
   loginValidationSchema,
-  logoutValidationSchema,
   refreshTokenValidationSchema,
   registerValidationSchema,
   resendVerificationValidationSchema,
@@ -31,7 +30,7 @@ const router = Router();
 router.post('/register', validateRequest(registerValidationSchema), asyncHandler(register));
 router.post('/login', validateRequest(loginValidationSchema), asyncHandler(login));
 router.post('/refresh-token', validateRequest(refreshTokenValidationSchema), asyncHandler(handleRefreshToken));
-router.post('/logout', validateRequest(logoutValidationSchema), asyncHandler(logout));
+router.post('/logout', authMiddleware, asyncHandler(logout));
 
 
 router.get('/me', authMiddleware, asyncHandler(me));

@@ -23,3 +23,36 @@ export interface IPlan {
   createdAt: Date;
   updatedAt: Date;
 }
+
+export type CreatePlanPayload = {
+  name: string;
+  description?: string;
+  price: number;
+  currency?: PlanCurrency;
+  interval: PlanInterval;
+  features?: string[];
+  trialDays?: number;
+  isPopular?: boolean;
+  sortOrder?: number;
+};
+
+export type UpdatePlanPayload = Partial<
+  Omit<CreatePlanPayload, 'currency' | 'interval'> & {
+    currency: PlanCurrency;
+    interval: PlanInterval;
+    isActive: boolean;
+  }
+>;
+
+export type GetPlansQuery = {
+  page?: number;
+  limit?: number;
+  search?: string;
+  interval?: PlanInterval;
+  currency?: PlanCurrency;
+  isActive?: boolean;
+  minPrice?: number;
+  maxPrice?: number;
+  sortBy?: 'price' | 'createdAt' | 'sortOrder' | 'name';
+  sortOrder?: 'asc' | 'desc';
+};

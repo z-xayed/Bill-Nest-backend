@@ -1,19 +1,19 @@
 import { AppError } from '../../common/errors/AppError';
 import { env } from '../../config/env';
 import { Session } from '../sessions/session.model';
-import { createSession, revokeAllUserSessions, revokeSessionByHash } from '../sessions/session.service';
+import { createSession, revokeAllUserSessions } from '../sessions/session.service';
 import { IUser } from '../users/user.interface';
 import { User } from '../users/user.model';
 import { sanitizeUser } from '../users/user.utils';
+import { LoginPayload, RefreshTokenInput, RegisterPayload, RequestMeta } from './auth.interface';
 import {
   comparePassword,
   generateAccessToken,
-  generateEmailVerificationToken,
+  generateEmailVerificationOtp,
   generatePasswordResetToken,
   generateRefreshToken,
   hashPassword,
   hashToken,
-  verifyEmailVerificationToken,
   verifyPasswordResetToken,
   verifyRefreshToken,
 } from './auth.utils';
@@ -27,8 +27,6 @@ const msFromTokenExpiry = (raw: string): number => {
   if (unit === 'd') return value * 24 * 60 * 60 * 1000;
   return 0;
 };
-
-type RequestMeta = { userAgent?: string; ipAddress?: string };
 
 const buildTokenResponse = (user: IUser) => {
   const accessToken = generateAccessToken({
@@ -46,8 +44,8 @@ const buildTokenResponse = (user: IUser) => {
 };
 
 export const registerUser = async (
-  payload: { name: string; email: string; password: string },
-  meta?: RequestMeta,
+  payload: RegisterPayload,
+  _meta?: RequestMeta,
 ) => {
   const existing = await User.findOne({ email: payload.email.toLowerCase() });
   if (existing) throw new AppError('Email already registered', 409, 'EMAIL_ALREADY_EXISTS');
@@ -60,37 +58,24 @@ export const registerUser = async (
     role: 'client',
   });
 
-  const emailVerificationToken = generateEmailVerificationToken({
-    userId: user._id.toString(),
-    email: user.email,
-    tokenType: 'email_verification',
-  });
+  const emailVerificationOtp = generateEmailVerificationOtp();
 
-  user.emailVerificationTokenHash = hashToken(emailVerificationToken);
+  user.emailVerificationTokenHash = hashToken(emailVerificationOtp);
   user.emailVerificationTokenExpiresAt = new Date(
     Date.now() + msFromTokenExpiry(env.EMAIL_VERIFICATION_TOKEN_EXPIRES_IN),
   );
   await user.save();
 
-  const tokens = buildTokenResponse(user);
-  await createSession(
-    user._id,
-    hashToken(tokens.refreshToken),
-    new Date(Date.now() + msFromTokenExpiry(env.JWT_REFRESH_EXPIRES_IN)),
-    meta,
-  );
-
   return {
     user: sanitizeUser(user),
-    tokens,
     ...(env.NODE_ENV === 'development'
-      ? { dev: { emailVerificationToken } }
+      ? { dev: { emailVerificationOtp } }
       : {}),
   };
 };
 
 export const loginUser = async (
-  payload: { email: string; password: string },
+  payload: LoginPayload,
   meta?: RequestMeta,
 ) => {
   const user = await User.findOne({ email: payload.email.toLowerCase() }).select('+passwordHash');
@@ -100,6 +85,9 @@ export const loginUser = async (
   if (!isPasswordMatch) throw new AppError('Invalid credentials', 401, 'INVALID_CREDENTIALS');
 
   if (user.status !== 'active') throw new AppError('User is not active', 403, 'USER_NOT_ACTIVE');
+  if (!user.isEmailVerified) {
+    throw new AppError('Please verify your email before logging in', 403, 'EMAIL_NOT_VERIFIED');
+  }
 
   user.lastLoginAt = new Date();
   await user.save();
@@ -115,7 +103,7 @@ export const loginUser = async (
   return { user: sanitizeUser(user), tokens };
 };
 
-export const refreshToken = async (payload: { refreshToken: string }, meta?: RequestMeta) => {
+export const refreshToken = async (payload: RefreshTokenInput, meta?: RequestMeta) => {
   const decoded = verifyRefreshToken(payload.refreshToken);
   const refreshTokenHash = hashToken(payload.refreshToken);
 
@@ -146,8 +134,8 @@ export const refreshToken = async (payload: { refreshToken: string }, meta?: Req
   return { tokens };
 };
 
-export const logoutUser = async (payload: { refreshToken: string }) => {
-  await revokeSessionByHash(hashToken(payload.refreshToken));
+export const logoutUser = async (userId: string) => {
+  await revokeAllUserSessions(userId);
   return { success: true };
 };
 
@@ -157,16 +145,14 @@ export const getMe = async (userId: string) => {
   return { user: sanitizeUser(user) };
 };
 
-export const verifyEmail = async (token: string) => {
-  const decoded = verifyEmailVerificationToken(token);
+export const verifyEmail = async (otp: string) => {
   const user = await User.findOne({
-    _id: decoded.userId,
-    emailVerificationTokenHash: hashToken(token),
+    emailVerificationTokenHash: hashToken(otp),
     emailVerificationTokenExpiresAt: { $gt: new Date() },
   }).select('+emailVerificationTokenHash +emailVerificationTokenExpiresAt');
 
   if (!user) {
-    throw new AppError('Invalid email verification token', 400, 'INVALID_EMAIL_VERIFICATION_TOKEN');
+    throw new AppError('Invalid email verification OTP', 400, 'INVALID_EMAIL_VERIFICATION_TOKEN');
   }
 
   user.isEmailVerified = true;
@@ -183,24 +169,20 @@ export const resendEmailVerification = async (email: string) => {
     '+emailVerificationTokenHash +emailVerificationTokenExpiresAt',
   );
 
-  if (!user) return { message: 'If this email exists, verification link has been generated.' };
+  if (!user) return { message: 'A verification code has been sent to the email address.' };
   if (user.isEmailVerified) throw new AppError('Email already verified', 400, 'EMAIL_ALREADY_VERIFIED');
 
-  const emailVerificationToken = generateEmailVerificationToken({
-    userId: user._id.toString(),
-    email: user.email,
-    tokenType: 'email_verification',
-  });
+  const emailVerificationOtp = generateEmailVerificationOtp();
 
-  user.emailVerificationTokenHash = hashToken(emailVerificationToken);
+  user.emailVerificationTokenHash = hashToken(emailVerificationOtp);
   user.emailVerificationTokenExpiresAt = new Date(
     Date.now() + msFromTokenExpiry(env.EMAIL_VERIFICATION_TOKEN_EXPIRES_IN),
   );
   await user.save();
 
   return {
-    message: 'If this email exists, verification link has been generated.',
-    ...(env.NODE_ENV === 'development' ? { dev: { emailVerificationToken } } : {}),
+    message: 'A verification code has been sent to the email address.',
+    ...(env.NODE_ENV === 'development' ? { dev: { emailVerificationOtp } } : {}),
   };
 };
 
@@ -209,7 +191,7 @@ export const forgotPassword = async (email: string) => {
     '+passwordResetTokenHash +passwordResetTokenExpiresAt',
   );
 
-  if (!user) return { message: 'If this email exists, a password reset link has been generated.' };
+  if (!user) return { message: 'A password reset link has been sent to the email address.' };
 
   const passwordResetToken = generatePasswordResetToken({
     userId: user._id.toString(),
@@ -224,7 +206,7 @@ export const forgotPassword = async (email: string) => {
   await user.save();
 
   return {
-    message: 'If this email exists, a password reset link has been generated.',
+    message: 'A password reset link has been sent to the email address.',
     ...(env.NODE_ENV === 'development' ? { dev: { passwordResetToken } } : {}),
   };
 };

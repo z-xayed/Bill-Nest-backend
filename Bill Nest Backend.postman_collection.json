@@ -1,0 +1,1252 @@
+{
+  "info": {
+    "_postman_id": "97349f53-219a-452b-8d42-b93882111916",
+    "name": "Bill Nest Backend",
+    "schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json",
+    "_exporter_id": "39781146"
+  },
+  "item": [
+    {
+      "name": "Health",
+      "item": [
+        {
+          "name": "Health Check",
+          "request": {
+            "method": "GET",
+            "header": [],
+            "url": {
+              "raw": "{{base_url}}/api/v1/health",
+              "host": [
+                "{{base_url}}"
+              ],
+              "path": [
+                "api",
+                "v1",
+                "health"
+              ]
+            },
+            "description": "Generated from cURL: curl -X GET \"{{base_url}}/api/v1/health\""
+          },
+          "response": []
+        }
+      ]
+    },
+    {
+      "name": "Auth",
+      "item": [
+        {
+          "name": "Register User",
+          "event": [
+            {
+              "listen": "test",
+              "script": {
+                "type": "text/javascript",
+                "exec": [
+                  "const res = pm.response.json();",
+                  "if (res.data && res.data.emailVerificationToken) {",
+                  "  pm.environment.set(\"emailVerificationToken\", res.data.emailVerificationToken);",
+                  "}"
+                ]
+              }
+            }
+          ],
+          "request": {
+            "method": "POST",
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json",
+                "disabled": false
+              }
+            ],
+            "body": {
+              "mode": "raw",
+              "raw": "{\"name\": \"John Doe\", \"email\": \"john@example.com\", \"password\": \"Password123\"}",
+              "options": {
+                "raw": {
+                  "language": "json"
+                }
+              }
+            },
+            "url": {
+              "raw": "{{base_url}}/api/v1/auth/register",
+              "host": [
+                "{{base_url}}"
+              ],
+              "path": [
+                "api",
+                "v1",
+                "auth",
+                "register"
+              ]
+            },
+            "description": "Generated from cURL: curl -X POST {{base_url}}/api/v1/auth/register -H \"Content-Type: application/json\" -d '{\"name\": \"John Doe\", \"email\": \"john@example.com\", \"password\": \"Password123\"}'"
+          },
+          "response": []
+        },
+        {
+          "name": "Verify Email",
+          "request": {
+            "method": "POST",
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json",
+                "disabled": false
+              }
+            ],
+            "body": {
+              "mode": "raw",
+              "raw": "{\"token\": \"{{emailVerificationToken}}\"}",
+              "options": {
+                "raw": {
+                  "language": "json"
+                }
+              }
+            },
+            "url": {
+              "raw": "{{base_url}}/api/v1/auth/verify-email",
+              "host": [
+                "{{base_url}}"
+              ],
+              "path": [
+                "api",
+                "v1",
+                "auth",
+                "verify-email"
+              ]
+            },
+            "description": "Generated from cURL: curl -X POST {{base_url}}/api/v1/auth/verify-email -H \"Content-Type: application/json\" -d '{\"token\": \"{{emailVerificationToken}}\"}'"
+          },
+          "response": []
+        },
+        {
+          "name": "Resend Email Verification",
+          "request": {
+            "method": "POST",
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json",
+                "disabled": false
+              }
+            ],
+            "body": {
+              "mode": "raw",
+              "raw": "{\"email\": \"john@example.com\"}",
+              "options": {
+                "raw": {
+                  "language": "json"
+                }
+              }
+            },
+            "url": {
+              "raw": "{{base_url}}/api/v1/auth/resend-verification",
+              "host": [
+                "{{base_url}}"
+              ],
+              "path": [
+                "api",
+                "v1",
+                "auth",
+                "resend-verification"
+              ]
+            },
+            "description": "Generated from cURL: curl -X POST {{base_url}}/api/v1/auth/resend-verification -H \"Content-Type: application/json\" -d '{\"email\": \"john@example.com\"}'"
+          },
+          "response": []
+        },
+        {
+          "name": "Login",
+          "request": {
+            "method": "POST",
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json",
+                "disabled": false
+              }
+            ],
+            "body": {
+              "mode": "raw",
+              "raw": "{\"email\": \"john@example.com\", \"password\": \"Password123\"}",
+              "options": {
+                "raw": {
+                  "language": "json"
+                }
+              }
+            },
+            "url": {
+              "raw": "{{base_url}}/api/v1/auth/login",
+              "host": [
+                "{{base_url}}"
+              ],
+              "path": [
+                "api",
+                "v1",
+                "auth",
+                "login"
+              ]
+            },
+            "description": "Generated from cURL: curl -X POST {{base_url}}/api/v1/auth/login -H \"Content-Type: application/json\" -d '{\"email\": \"john@example.com\", \"password\": \"Password123\"}'"
+          },
+          "response": []
+        },
+        {
+          "name": "Get Current User",
+          "request": {
+            "auth": {
+              "type": "bearer",
+              "bearer": [
+                {
+                  "key": "token",
+                  "value": "{{accessToken}}",
+                  "type": "string"
+                }
+              ]
+            },
+            "method": "GET",
+            "header": [
+              {
+                "key": "Authorization",
+                "value": "Bearer {{accessToken}}",
+                "disabled": true
+              }
+            ],
+            "url": {
+              "raw": "{{base_url}}/api/v1/auth/me",
+              "host": [
+                "{{base_url}}"
+              ],
+              "path": [
+                "api",
+                "v1",
+                "auth",
+                "me"
+              ]
+            },
+            "description": "Generated from cURL: curl -X GET {{base_url}}/api/v1/auth/me -H \"Authorization: Bearer {{accessToken}}\""
+          },
+          "response": []
+        },
+        {
+          "name": "Refresh Token",
+          "request": {
+            "method": "POST",
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json",
+                "disabled": false
+              }
+            ],
+            "body": {
+              "mode": "raw",
+              "raw": "{\"refreshToken\": \"{{refreshToken}}\"}",
+              "options": {
+                "raw": {
+                  "language": "json"
+                }
+              }
+            },
+            "url": {
+              "raw": "{{base_url}}/api/v1/auth/refresh-token",
+              "host": [
+                "{{base_url}}"
+              ],
+              "path": [
+                "api",
+                "v1",
+                "auth",
+                "refresh-token"
+              ]
+            },
+            "description": "Generated from cURL: curl -X POST {{base_url}}/api/v1/auth/refresh-token -H \"Content-Type: application/json\" -d '{\"refreshToken\": \"{{refreshToken}}\"}'"
+          },
+          "response": []
+        },
+        {
+          "name": "Logout",
+          "request": {
+            "method": "POST",
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json",
+                "disabled": false
+              }
+            ],
+            "body": {
+              "mode": "raw",
+              "raw": "{\"refreshToken\": \"{{refreshToken}}\"}",
+              "options": {
+                "raw": {
+                  "language": "json"
+                }
+              }
+            },
+            "url": {
+              "raw": "{{base_url}}/api/v1/auth/logout",
+              "host": [
+                "{{base_url}}"
+              ],
+              "path": [
+                "api",
+                "v1",
+                "auth",
+                "logout"
+              ]
+            },
+            "description": "Generated from cURL: curl -X POST {{base_url}}/api/v1/auth/logout -H \"Content-Type: application/json\" -d '{\"refreshToken\": \"{{refreshToken}}\"}'"
+          },
+          "response": []
+        },
+        {
+          "name": "Forgot Password",
+          "request": {
+            "method": "POST",
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json",
+                "disabled": false
+              }
+            ],
+            "body": {
+              "mode": "raw",
+              "raw": "{\"email\": \"john@example.com\"}",
+              "options": {
+                "raw": {
+                  "language": "json"
+                }
+              }
+            },
+            "url": {
+              "raw": "{{base_url}}/api/v1/auth/forgot-password",
+              "host": [
+                "{{base_url}}"
+              ],
+              "path": [
+                "api",
+                "v1",
+                "auth",
+                "forgot-password"
+              ]
+            },
+            "description": "Generated from cURL: curl -X POST {{base_url}}/api/v1/auth/forgot-password -H \"Content-Type: application/json\" -d '{\"email\": \"john@example.com\"}'"
+          },
+          "response": []
+        },
+        {
+          "name": "Reset Password",
+          "request": {
+            "method": "POST",
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json",
+                "disabled": false
+              }
+            ],
+            "body": {
+              "mode": "raw",
+              "raw": "{\"token\": \"{{passwordResetToken}}\", \"newPassword\": \"NewPassword123\"}",
+              "options": {
+                "raw": {
+                  "language": "json"
+                }
+              }
+            },
+            "url": {
+              "raw": "{{base_url}}/api/v1/auth/reset-password",
+              "host": [
+                "{{base_url}}"
+              ],
+              "path": [
+                "api",
+                "v1",
+                "auth",
+                "reset-password"
+              ]
+            },
+            "description": "Generated from cURL: curl -X POST {{base_url}}/api/v1/auth/reset-password -H \"Content-Type: application/json\" -d '{\"token\": \"{{passwordResetToken}}\", \"newPassword\": \"NewPassword123\"}'"
+          },
+          "response": []
+        },
+        {
+          "name": "Change Password",
+          "request": {
+            "method": "PATCH",
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json",
+                "disabled": false
+              },
+              {
+                "key": "Authorization",
+                "value": "Bearer {{accessToken}}",
+                "disabled": false
+              }
+            ],
+            "body": {
+              "mode": "raw",
+              "raw": "{\"currentPassword\": \"Password123\", \"newPassword\": \"NewPassword123\"}",
+              "options": {
+                "raw": {
+                  "language": "json"
+                }
+              }
+            },
+            "url": {
+              "raw": "{{base_url}}/api/v1/auth/change-password",
+              "host": [
+                "{{base_url}}"
+              ],
+              "path": [
+                "api",
+                "v1",
+                "auth",
+                "change-password"
+              ]
+            },
+            "description": "Generated from cURL: curl -X PATCH {{base_url}}/api/v1/auth/change-password -H \"Content-Type: application/json\" -H \"Authorization: Bearer {{accessToken}}\" -d '{\"currentPassword\": \"Password123\", \"newPassword\": \"NewPassword123\"}'"
+          },
+          "response": []
+        }
+      ]
+    },
+    {
+      "name": "Plans",
+      "item": [
+        {
+          "name": "Create Plan",
+          "request": {
+            "method": "POST",
+            "header": [
+              {
+                "key": "Authorization",
+                "value": "Bearer {{adminAccessToken}}",
+                "disabled": false
+              },
+              {
+                "key": "Content-Type",
+                "value": "application/json",
+                "disabled": false
+              }
+            ],
+            "body": {
+              "mode": "raw",
+              "raw": "{\"name\":\"Growth\",\"description\":\"Growth plan for scaling businesses.\",\"price\":49.99,\"currency\":\"usd\",\"interval\":\"month\",\"features\":[\"Growth access\",\"Priority support\",\"Team dashboard\"],\"trialDays\":14,\"isPopular\":false,\"sortOrder\":4}",
+              "options": {
+                "raw": {
+                  "language": "json"
+                }
+              }
+            },
+            "url": {
+              "raw": "{{base_url}}/api/v1/plans",
+              "host": [
+                "{{base_url}}"
+              ],
+              "path": [
+                "api",
+                "v1",
+                "plans"
+              ]
+            },
+            "description": "Admin-only endpoint for creating a subscription plan."
+          },
+          "response": [
+            {
+              "name": "Create Plan - Success",
+              "originalRequest": {
+                "method": "POST",
+                "header": [
+                  {
+                    "key": "Authorization",
+                    "value": "Bearer {{adminAccessToken}}"
+                  },
+                  {
+                    "key": "Content-Type",
+                    "value": "application/json"
+                  }
+                ],
+                "body": {
+                  "mode": "raw",
+                  "raw": "{\"name\":\"Growth\",\"description\":\"Growth plan for scaling businesses.\",\"price\":49.99,\"currency\":\"usd\",\"interval\":\"month\",\"features\":[\"Growth access\",\"Priority support\",\"Team dashboard\"],\"trialDays\":14,\"isPopular\":false,\"sortOrder\":4}",
+                  "options": {
+                    "raw": {
+                      "language": "json"
+                    }
+                  }
+                },
+                "url": {
+                  "raw": "{{base_url}}/api/v1/plans",
+                  "host": [
+                    "{{base_url}}"
+                  ],
+                  "path": [
+                    "api",
+                    "v1",
+                    "plans"
+                  ]
+                }
+              },
+              "status": "Created",
+              "code": 201,
+              "_postman_previewlanguage": "json",
+              "header": [
+                {
+                  "key": "Authorization",
+                  "value": "Bearer {{adminAccessToken}}",
+                  "description": "",
+                  "enabled": true
+                },
+                {
+                  "key": "Content-Type",
+                  "value": "application/json",
+                  "description": "",
+                  "enabled": true
+                }
+              ],
+              "cookie": [],
+              "body": "{\"success\":true,\"message\":\"Plan created successfully\",\"data\":{\"plan\":{\"_id\":\"PLAN_ID\",\"name\":\"Growth\",\"slug\":\"growth\",\"description\":\"Growth plan for scaling businesses.\",\"price\":49.99,\"currency\":\"usd\",\"interval\":\"month\",\"features\":[\"Growth access\",\"Priority support\",\"Team dashboard\"],\"trialDays\":14,\"isActive\":true,\"isPopular\":false,\"sortOrder\":4,\"createdBy\":\"ADMIN_USER_ID\",\"createdAt\":\"2026-05-23T00:00:00.000Z\",\"updatedAt\":\"2026-05-23T00:00:00.000Z\"}}}"
+            },
+            {
+              "name": "Create Plan - Error (Common)",
+              "originalRequest": {
+                "method": "POST",
+                "header": [
+                  {
+                    "key": "Authorization",
+                    "value": "Bearer {{adminAccessToken}}"
+                  },
+                  {
+                    "key": "Content-Type",
+                    "value": "application/json"
+                  }
+                ],
+                "body": {
+                  "mode": "raw",
+                  "raw": "{\"name\":\"Growth\",\"description\":\"Growth plan for scaling businesses.\",\"price\":49.99,\"currency\":\"usd\",\"interval\":\"month\",\"features\":[\"Growth access\",\"Priority support\",\"Team dashboard\"],\"trialDays\":14,\"isPopular\":false,\"sortOrder\":4}",
+                  "options": {
+                    "raw": {
+                      "language": "json"
+                    }
+                  }
+                },
+                "url": {
+                  "raw": "{{base_url}}/api/v1/plans",
+                  "host": [
+                    "{{base_url}}"
+                  ],
+                  "path": [
+                    "api",
+                    "v1",
+                    "plans"
+                  ]
+                }
+              },
+              "status": "Not Found",
+              "code": 404,
+              "_postman_previewlanguage": "json",
+              "header": [
+                {
+                  "key": "Authorization",
+                  "value": "Bearer {{adminAccessToken}}",
+                  "description": "",
+                  "enabled": true
+                },
+                {
+                  "key": "Content-Type",
+                  "value": "application/json",
+                  "description": "",
+                  "enabled": true
+                }
+              ],
+              "cookie": [],
+              "body": "{\"success\":false,\"message\":\"Plan not found\",\"error\":{\"code\":\"PLAN_NOT_FOUND\",\"details\":null},\"requestId\":\"REQUEST_ID\"}"
+            }
+          ]
+        },
+        {
+          "name": "Get Plan By ID",
+          "request": {
+            "method": "GET",
+            "header": [],
+            "url": {
+              "raw": "{{base_url}}/api/v1/plans/{{planId}}",
+              "host": [
+                "{{base_url}}"
+              ],
+              "path": [
+                "api",
+                "v1",
+                "plans",
+                "{{planId}}"
+              ]
+            },
+            "description": "Returns a single active plan by MongoDB ObjectId."
+          },
+          "response": [
+            {
+              "name": "Get Plan By ID - Error (Plan Not Found)",
+              "originalRequest": {
+                "method": "GET",
+                "header": [],
+                "url": {
+                  "raw": "{{base_url}}/api/v1/plans/{{planId}}",
+                  "host": [
+                    "{{base_url}}"
+                  ],
+                  "path": [
+                    "api",
+                    "v1",
+                    "plans",
+                    "{{planId}}"
+                  ],
+                  "variable": [
+                    {
+                      "key": "planId",
+                      "value": "PLAN_ID",
+                      "enabled": true
+                    }
+                  ]
+                }
+              },
+              "status": "Not Found",
+              "code": 404,
+              "_postman_previewlanguage": "json",
+              "header": [],
+              "cookie": [],
+              "body": "{\"success\":false,\"message\":\"Plan not found\",\"error\":{\"code\":\"PLAN_NOT_FOUND\",\"details\":null},\"requestId\":\"REQUEST_ID\"}"
+            }
+          ]
+        },
+        {
+          "name": "Restore Plan",
+          "request": {
+            "method": "PATCH",
+            "header": [
+              {
+                "key": "Authorization",
+                "value": "Bearer {{adminAccessToken}}",
+                "disabled": false
+              }
+            ],
+            "url": {
+              "raw": "{{base_url}}/api/v1/plans/{{planId}}/restore",
+              "host": [
+                "{{base_url}}"
+              ],
+              "path": [
+                "api",
+                "v1",
+                "plans",
+                "{{planId}}",
+                "restore"
+              ]
+            },
+            "description": "Admin-only endpoint for restoring a soft-deleted plan. It sets isActive to true."
+          },
+          "response": [
+            {
+              "name": "Restore Plan - Success",
+              "originalRequest": {
+                "method": "PATCH",
+                "header": [
+                  {
+                    "key": "Authorization",
+                    "value": "Bearer {{adminAccessToken}}"
+                  }
+                ],
+                "url": {
+                  "raw": "{{base_url}}/api/v1/plans/{{planId}}/restore",
+                  "host": [
+                    "{{base_url}}"
+                  ],
+                  "path": [
+                    "api",
+                    "v1",
+                    "plans",
+                    "{{planId}}",
+                    "restore"
+                  ],
+                  "variable": [
+                    {
+                      "key": "planId",
+                      "value": "PLAN_ID",
+                      "enabled": true
+                    }
+                  ]
+                }
+              },
+              "status": "OK",
+              "code": 200,
+              "_postman_previewlanguage": "json",
+              "header": [
+                {
+                  "key": "Authorization",
+                  "value": "Bearer {{adminAccessToken}}",
+                  "description": "",
+                  "enabled": true
+                }
+              ],
+              "cookie": [],
+              "body": "{\"success\":true,\"message\":\"Plan restored successfully\",\"data\":{\"plan\":{\"_id\":\"PLAN_ID\",\"name\":\"Growth\",\"slug\":\"growth\",\"description\":\"Growth plan for scaling businesses.\",\"price\":49.99,\"currency\":\"usd\",\"interval\":\"month\",\"features\":[\"Growth access\",\"Priority support\",\"Team dashboard\"],\"trialDays\":14,\"isActive\":true,\"isPopular\":false,\"sortOrder\":4,\"createdBy\":\"ADMIN_USER_ID\",\"createdAt\":\"2026-05-23T00:00:00.000Z\",\"updatedAt\":\"2026-05-23T00:00:00.000Z\"}}}"
+            },
+            {
+              "name": "Restore Plan - Error (Plan Not Found)",
+              "originalRequest": {
+                "method": "PATCH",
+                "header": [
+                  {
+                    "key": "Authorization",
+                    "value": "Bearer {{adminAccessToken}}"
+                  }
+                ],
+                "url": {
+                  "raw": "{{base_url}}/api/v1/plans/{{planId}}/restore",
+                  "host": [
+                    "{{base_url}}"
+                  ],
+                  "path": [
+                    "api",
+                    "v1",
+                    "plans",
+                    "{{planId}}",
+                    "restore"
+                  ],
+                  "variable": [
+                    {
+                      "key": "planId",
+                      "value": "PLAN_ID",
+                      "enabled": true
+                    }
+                  ]
+                }
+              },
+              "status": "Not Found",
+              "code": 404,
+              "_postman_previewlanguage": "json",
+              "header": [
+                {
+                  "key": "Authorization",
+                  "value": "Bearer {{adminAccessToken}}",
+                  "description": "",
+                  "enabled": true
+                }
+              ],
+              "cookie": [],
+              "body": "{\"success\":false,\"message\":\"Plan not found\",\"error\":{\"code\":\"PLAN_NOT_FOUND\",\"details\":null},\"requestId\":\"REQUEST_ID\"}"
+            }
+          ]
+        },
+        {
+          "name": "Get Plans With Filters",
+          "request": {
+            "method": "GET",
+            "header": [],
+            "url": {
+              "raw": "{{base_url}}/api/v1/plans?page=1&limit=10&search=pro&interval=month&currency=usd&isActive=true&minPrice=&maxPrice=&sortBy=price&sortOrder=asc",
+              "host": [
+                "{{base_url}}"
+              ],
+              "path": [
+                "api",
+                "v1",
+                "plans"
+              ],
+              "query": [
+                {
+                  "key": "page",
+                  "value": "1"
+                },
+                {
+                  "key": "limit",
+                  "value": "10"
+                },
+                {
+                  "key": "search",
+                  "value": "pro"
+                },
+                {
+                  "key": "interval",
+                  "value": "month"
+                },
+                {
+                  "key": "currency",
+                  "value": "usd"
+                },
+                {
+                  "key": "isActive",
+                  "value": "true"
+                },
+                {
+                  "key": "minPrice",
+                  "value": ""
+                },
+                {
+                  "key": "maxPrice",
+                  "value": ""
+                },
+                {
+                  "key": "sortBy",
+                  "value": "price"
+                },
+                {
+                  "key": "sortOrder",
+                  "value": "asc"
+                }
+              ]
+            },
+            "description": "Returns plans using search, filters, pagination, and sorting."
+          },
+          "response": []
+        },
+        {
+          "name": "Get All Plans",
+          "request": {
+            "method": "GET",
+            "header": [],
+            "url": {
+              "raw": "{{base_url}}/api/v1/plans?page=1&limit=10",
+              "host": [
+                "{{base_url}}"
+              ],
+              "path": [
+                "api",
+                "v1",
+                "plans"
+              ],
+              "query": [
+                {
+                  "key": "page",
+                  "value": "1"
+                },
+                {
+                  "key": "limit",
+                  "value": "10"
+                }
+              ]
+            },
+            "description": "Returns paginated public subscription plans."
+          },
+          "response": [
+            {
+              "name": "Get All Plans - Success",
+              "originalRequest": {
+                "method": "GET",
+                "header": [],
+                "url": {
+                  "raw": "{{base_url}}/api/v1/plans?page=1&limit=10",
+                  "host": [
+                    "{{base_url}}"
+                  ],
+                  "path": [
+                    "api",
+                    "v1",
+                    "plans"
+                  ],
+                  "query": [
+                    {
+                      "key": "page",
+                      "value": "1",
+                      "type": "text"
+                    },
+                    {
+                      "key": "limit",
+                      "value": "10",
+                      "type": "text"
+                    }
+                  ]
+                }
+              },
+              "status": "OK",
+              "code": 200,
+              "_postman_previewlanguage": "json",
+              "header": [],
+              "cookie": [],
+              "body": "{\"success\":true,\"message\":\"Plans retrieved successfully\",\"data\":{\"plans\":[],\"meta\":{\"page\":1,\"limit\":10,\"total\":0,\"totalPages\":0}}}"
+            },
+            {
+              "name": "Get All Plans - Error (Plan Not Found)",
+              "originalRequest": {
+                "method": "GET",
+                "header": [],
+                "url": {
+                  "raw": "{{base_url}}/api/v1/plans?page=1&limit=10",
+                  "host": [
+                    "{{base_url}}"
+                  ],
+                  "path": [
+                    "api",
+                    "v1",
+                    "plans"
+                  ],
+                  "query": [
+                    {
+                      "key": "page",
+                      "value": "1",
+                      "type": "text"
+                    },
+                    {
+                      "key": "limit",
+                      "value": "10",
+                      "type": "text"
+                    }
+                  ]
+                }
+              },
+              "status": "Not Found",
+              "code": 404,
+              "_postman_previewlanguage": "json",
+              "header": [],
+              "cookie": [],
+              "body": "{\"success\":false,\"message\":\"Plan not found\",\"error\":{\"code\":\"PLAN_NOT_FOUND\",\"details\":null},\"requestId\":\"REQUEST_ID\"}"
+            }
+          ]
+        },
+        {
+          "name": "Soft Delete Plan",
+          "request": {
+            "method": "DELETE",
+            "header": [
+              {
+                "key": "Authorization",
+                "value": "Bearer {{adminAccessToken}}",
+                "disabled": false
+              }
+            ],
+            "url": {
+              "raw": "{{base_url}}/api/v1/plans/{{planId}}",
+              "host": [
+                "{{base_url}}"
+              ],
+              "path": [
+                "api",
+                "v1",
+                "plans",
+                "{{planId}}"
+              ]
+            },
+            "description": "Admin-only endpoint for soft deleting a plan. It sets isActive to false."
+          },
+          "response": [
+            {
+              "name": "Soft Delete Plan - Success",
+              "originalRequest": {
+                "method": "DELETE",
+                "header": [
+                  {
+                    "key": "Authorization",
+                    "value": "Bearer {{adminAccessToken}}"
+                  }
+                ],
+                "url": {
+                  "raw": "{{base_url}}/api/v1/plans/{{planId}}",
+                  "host": [
+                    "{{base_url}}"
+                  ],
+                  "path": [
+                    "api",
+                    "v1",
+                    "plans",
+                    "{{planId}}"
+                  ],
+                  "variable": [
+                    {
+                      "key": "planId",
+                      "value": "PLAN_ID",
+                      "enabled": true
+                    }
+                  ]
+                }
+              },
+              "status": "OK",
+              "code": 200,
+              "_postman_previewlanguage": "json",
+              "header": [
+                {
+                  "key": "Authorization",
+                  "value": "Bearer {{adminAccessToken}}",
+                  "description": "",
+                  "enabled": true
+                }
+              ],
+              "cookie": [],
+              "body": "{\"success\":true,\"message\":\"Plan deleted successfully\",\"data\":null}"
+            },
+            {
+              "name": "Soft Delete Plan - Error (Plan Not Found)",
+              "originalRequest": {
+                "method": "DELETE",
+                "header": [
+                  {
+                    "key": "Authorization",
+                    "value": "Bearer {{adminAccessToken}}"
+                  }
+                ],
+                "url": {
+                  "raw": "{{base_url}}/api/v1/plans/{{planId}}",
+                  "host": [
+                    "{{base_url}}"
+                  ],
+                  "path": [
+                    "api",
+                    "v1",
+                    "plans",
+                    "{{planId}}"
+                  ],
+                  "variable": [
+                    {
+                      "key": "planId",
+                      "value": "PLAN_ID",
+                      "enabled": true
+                    }
+                  ]
+                }
+              },
+              "status": "Not Found",
+              "code": 404,
+              "_postman_previewlanguage": "json",
+              "header": [
+                {
+                  "key": "Authorization",
+                  "value": "Bearer {{adminAccessToken}}",
+                  "description": "",
+                  "enabled": true
+                }
+              ],
+              "cookie": [],
+              "body": "{\"success\":false,\"message\":\"Plan not found\",\"error\":{\"code\":\"PLAN_NOT_FOUND\",\"details\":null},\"requestId\":\"REQUEST_ID\"}"
+            }
+          ]
+        },
+        {
+          "name": "Get Plan By Slug",
+          "request": {
+            "method": "GET",
+            "header": [],
+            "url": {
+              "raw": "{{base_url}}/api/v1/plans/{{planSlug}}",
+              "host": [
+                "{{base_url}}"
+              ],
+              "path": [
+                "api",
+                "v1",
+                "plans",
+                "{{planSlug}}"
+              ]
+            },
+            "description": "Returns a single active plan by slug."
+          },
+          "response": [
+            {
+              "name": "Get Plan By Slug - Error (Plan Not Found)",
+              "originalRequest": {
+                "method": "GET",
+                "header": [],
+                "url": {
+                  "raw": "{{base_url}}/api/v1/plans/{{planSlug}}",
+                  "host": [
+                    "{{base_url}}"
+                  ],
+                  "path": [
+                    "api",
+                    "v1",
+                    "plans",
+                    "{{planSlug}}"
+                  ],
+                  "variable": [
+                    {
+                      "key": "planSlug",
+                      "value": "growth",
+                      "enabled": true
+                    }
+                  ]
+                }
+              },
+              "status": "Not Found",
+              "code": 404,
+              "_postman_previewlanguage": "json",
+              "header": [],
+              "cookie": [],
+              "body": "{\"success\":false,\"message\":\"Plan not found\",\"error\":{\"code\":\"PLAN_NOT_FOUND\",\"details\":null},\"requestId\":\"REQUEST_ID\"}"
+            }
+          ]
+        },
+        {
+          "name": "Update Plan",
+          "request": {
+            "method": "PATCH",
+            "header": [
+              {
+                "key": "Authorization",
+                "value": "Bearer {{adminAccessToken}}",
+                "disabled": false
+              },
+              {
+                "key": "Content-Type",
+                "value": "application/json",
+                "disabled": false
+              }
+            ],
+            "body": {
+              "mode": "raw",
+              "raw": "{\"description\":\"Updated growth plan description.\",\"price\":59.99,\"features\":[\"Growth access\",\"Priority support\",\"Team dashboard\",\"Advanced reports\"],\"isPopular\":true,\"sortOrder\":4}",
+              "options": {
+                "raw": {
+                  "language": "json"
+                }
+              }
+            },
+            "url": {
+              "raw": "{{base_url}}/api/v1/plans/{{planId}}",
+              "host": [
+                "{{base_url}}"
+              ],
+              "path": [
+                "api",
+                "v1",
+                "plans",
+                "{{planId}}"
+              ]
+            },
+            "description": "Admin-only endpoint for updating a plan."
+          },
+          "response": [
+            {
+              "name": "Update Plan - Success",
+              "originalRequest": {
+                "method": "PATCH",
+                "header": [
+                  {
+                    "key": "Authorization",
+                    "value": "Bearer {{adminAccessToken}}"
+                  },
+                  {
+                    "key": "Content-Type",
+                    "value": "application/json"
+                  }
+                ],
+                "body": {
+                  "mode": "raw",
+                  "raw": "{\"description\":\"Updated growth plan description.\",\"price\":59.99,\"features\":[\"Growth access\",\"Priority support\",\"Team dashboard\",\"Advanced reports\"],\"isPopular\":true,\"sortOrder\":4}",
+                  "options": {
+                    "raw": {
+                      "language": "json"
+                    }
+                  }
+                },
+                "url": {
+                  "raw": "{{base_url}}/api/v1/plans/{{planId}}",
+                  "host": [
+                    "{{base_url}}"
+                  ],
+                  "path": [
+                    "api",
+                    "v1",
+                    "plans",
+                    "{{planId}}"
+                  ],
+                  "variable": [
+                    {
+                      "key": "planId",
+                      "value": "PLAN_ID",
+                      "enabled": true
+                    }
+                  ]
+                }
+              },
+              "status": "OK",
+              "code": 200,
+              "_postman_previewlanguage": "json",
+              "header": [
+                {
+                  "key": "Authorization",
+                  "value": "Bearer {{adminAccessToken}}",
+                  "description": "",
+                  "enabled": true
+                },
+                {
+                  "key": "Content-Type",
+                  "value": "application/json",
+                  "description": "",
+                  "enabled": true
+                }
+              ],
+              "cookie": [],
+              "body": "{\"success\":true,\"message\":\"Plan updated successfully\",\"data\":{\"plan\":{\"_id\":\"PLAN_ID\",\"name\":\"Growth\",\"slug\":\"growth\",\"description\":\"Updated growth plan description.\",\"price\":59.99,\"currency\":\"usd\",\"interval\":\"month\",\"features\":[\"Growth access\",\"Priority support\",\"Team dashboard\",\"Advanced reports\"],\"trialDays\":14,\"isActive\":true,\"isPopular\":true,\"sortOrder\":4,\"createdBy\":\"ADMIN_USER_ID\",\"createdAt\":\"2026-05-23T00:00:00.000Z\",\"updatedAt\":\"2026-05-23T00:00:00.000Z\"}}}"
+            },
+            {
+              "name": "Update Plan - Error (Plan Not Found)",
+              "originalRequest": {
+                "method": "PATCH",
+                "header": [
+                  {
+                    "key": "Authorization",
+                    "value": "Bearer {{adminAccessToken}}"
+                  },
+                  {
+                    "key": "Content-Type",
+                    "value": "application/json"
+                  }
+                ],
+                "body": {
+                  "mode": "raw",
+                  "raw": "{\"description\":\"Updated growth plan description.\",\"price\":59.99,\"features\":[\"Growth access\",\"Priority support\",\"Team dashboard\",\"Advanced reports\"],\"isPopular\":true,\"sortOrder\":4}",
+                  "options": {
+                    "raw": {
+                      "language": "json"
+                    }
+                  }
+                },
+                "url": {
+                  "raw": "{{base_url}}/api/v1/plans/{{planId}}",
+                  "host": [
+                    "{{base_url}}"
+                  ],
+                  "path": [
+                    "api",
+                    "v1",
+                    "plans",
+                    "{{planId}}"
+                  ],
+                  "variable": [
+                    {
+                      "key": "planId",
+                      "value": "PLAN_ID",
+                      "enabled": true
+                    }
+                  ]
+                }
+              },
+              "status": "Not Found",
+              "code": 404,
+              "_postman_previewlanguage": "json",
+              "header": [
+                {
+                  "key": "Authorization",
+                  "value": "Bearer {{adminAccessToken}}",
+                  "description": "",
+                  "enabled": true
+                },
+                {
+                  "key": "Content-Type",
+                  "value": "application/json",
+                  "description": "",
+                  "enabled": true
+                }
+              ],
+              "cookie": [],
+              "body": "{\"success\":false,\"message\":\"Plan not found\",\"error\":{\"code\":\"PLAN_NOT_FOUND\",\"details\":null},\"requestId\":\"REQUEST_ID\"}"
+            }
+          ]
+        }
+      ]
+    }
+  ]
+}

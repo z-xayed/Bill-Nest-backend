@@ -12,3 +12,5 @@ export interface ISession {
   createdAt: Date;
   updatedAt: Date;
 }
+
+export type SessionMeta = { userAgent?: string; ipAddress?: string };

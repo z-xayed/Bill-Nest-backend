@@ -1,4 +1,5 @@
 import { z } from 'zod';
+import { Types } from 'mongoose';
 
 const baseBody = z.object({
   name: z.string().min(2).max(100),
@@ -35,7 +36,12 @@ export const updatePlanValidationSchema = z.object({
 });
 
 export const planIdParamValidationSchema = z.object({
-  params: z.object({ id: z.string().min(1) }),
+  params: z.object({
+    id: z
+      .string()
+      .min(1)
+      .refine((value) => Types.ObjectId.isValid(value), 'Invalid plan id'),
+  }),
 });
 
 export const planIdOrSlugParamValidationSchema = z.object({

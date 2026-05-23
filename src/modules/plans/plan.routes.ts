@@ -9,6 +9,8 @@ import {
   getPlanByIdOrSlugController,
   getPlansController,
   restorePlanController,
+  syncMissingPlansWithStripeController,
+  syncPlanWithStripeController,
   updatePlanController,
 } from './plan.controller';
 import {
@@ -22,7 +24,6 @@ import {
 const router = Router();
 
 router.get('/', validateRequest(getPlansQueryValidationSchema), asyncHandler(getPlansController));
-router.get('/:idOrSlug', validateRequest(planIdOrSlugParamValidationSchema), asyncHandler(getPlanByIdOrSlugController));
 
 router.post(
   '/',
@@ -30,6 +31,21 @@ router.post(
   requireRole('admin'),
   validateRequest(createPlanValidationSchema),
   asyncHandler(createPlanController),
+);
+
+router.post(
+  '/sync-stripe',
+  authMiddleware,
+  requireRole('admin'),
+  asyncHandler(syncMissingPlansWithStripeController),
+);
+
+router.post(
+  '/:id/sync-stripe',
+  authMiddleware,
+  requireRole('admin'),
+  validateRequest(planIdParamValidationSchema),
+  asyncHandler(syncPlanWithStripeController),
 );
 
 router.patch(
@@ -55,5 +71,7 @@ router.patch(
   validateRequest(planIdParamValidationSchema),
   asyncHandler(restorePlanController),
 );
+
+router.get('/:idOrSlug', validateRequest(planIdOrSlugParamValidationSchema), asyncHandler(getPlanByIdOrSlugController));
 
 export const planRoutes = router;

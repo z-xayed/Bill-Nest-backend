@@ -4,7 +4,6 @@ import jwt from 'jsonwebtoken';
 import { env } from '../../config/env';
 import {
   AuthUserPayload,
-  EmailVerificationTokenPayload,
   PasswordResetTokenPayload,
   RefreshTokenPayload,
 } from './auth.interface';
@@ -44,18 +43,8 @@ export const verifyRefreshToken = (token: string): RefreshTokenPayload => {
   return jwt.verify(token, env.JWT_REFRESH_SECRET) as RefreshTokenPayload;
 };
 
-export const generateEmailVerificationToken = (
-  payload: EmailVerificationTokenPayload,
-): string => {
-  return jwt.sign(payload, env.EMAIL_VERIFICATION_TOKEN_SECRET, {
-    expiresIn: env.EMAIL_VERIFICATION_TOKEN_EXPIRES_IN,
-  } as jwt.SignOptions);
-};
-
-export const verifyEmailVerificationToken = (
-  token: string,
-): EmailVerificationTokenPayload => {
-  return jwt.verify(token, env.EMAIL_VERIFICATION_TOKEN_SECRET) as EmailVerificationTokenPayload;
+export const generateEmailVerificationOtp = (): string => {
+  return crypto.randomInt(100000, 1000000).toString();
 };
 
 export const generatePasswordResetToken = (

@@ -1,7 +1,6 @@
 import { Types } from 'mongoose';
+import { SessionMeta } from './session.interface';
 import { Session } from './session.model';
-
-type SessionMeta = { userAgent?: string; ipAddress?: string };
 
 export const createSession = async (
   userId: Types.ObjectId,

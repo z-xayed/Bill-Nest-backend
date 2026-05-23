@@ -10,6 +10,7 @@ import { apiRateLimiter } from './common/middlewares/rateLimit.middleware';
 import { requestIdMiddleware } from './common/middlewares/requestId.middleware';
 import { requestLoggerMiddleware } from './common/middlewares/requestLogger.middleware';
 import { env } from './config/env';
+import { stripeWebhookRoutes } from './modules/webhooks/stripeWebhook.routes';
 
 const app = express();
 
@@ -25,7 +26,8 @@ app.use(compression());
 app.use(cookieParser());
 app.use(requestLoggerMiddleware);
 
-// Stripe webhook route must be mounted before express.json() in a later step.
+app.use('/api/v1/webhooks/stripe', stripeWebhookRoutes);
+
 app.use(express.json({ limit: '1mb' }));
 app.use(express.urlencoded({ extended: true }));
 

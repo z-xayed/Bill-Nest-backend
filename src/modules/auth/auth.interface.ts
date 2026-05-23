@@ -20,3 +20,20 @@ export type PasswordResetTokenPayload = {
   email: string;
   tokenType: 'password_reset';
 };
+
+export type RequestMeta = { userAgent?: string; ipAddress?: string };
+
+export type RegisterPayload = {
+  name: string;
+  email: string;
+  password: string;
+};
+
+export type LoginPayload = {
+  email: string;
+  password: string;
+};
+
+export type RefreshTokenInput = {
+  refreshToken: string;
+};
