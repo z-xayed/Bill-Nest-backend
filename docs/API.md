@@ -77,9 +77,7 @@ Response example:
   "message": "Registration successful. Please verify your email.",
   "data": {
     "user": {},
-    "dev": {
-      "emailVerificationOtp": "only in development"
-    }
+    "temporaryForFasterCheckingOtp": "123456"
   }
 }
 ```
@@ -251,9 +249,7 @@ Response example:
   "message": "A verification code has been sent to the email address.",
   "data": {
     "message": "A verification code has been sent to the email address.",
-    "dev": {
-      "emailVerificationOtp": "only in development"
-    }
+    "temporaryForFasterCheckingOtp": "123456"
   }
 }
 ```
@@ -281,9 +277,7 @@ Response example:
   "message": "A password reset link has been sent to the email address.",
   "data": {
     "message": "A password reset link has been sent to the email address.",
-    "dev": {
-      "passwordResetToken": "only in development"
-    }
+    "temporaryForFasterCheckingPasswordResetToken": "token_for_testing"
   }
 }
 ```

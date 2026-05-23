@@ -68,9 +68,7 @@ export const registerUser = async (
 
   return {
     user: sanitizeUser(user),
-    ...(env.NODE_ENV === 'development'
-      ? { dev: { emailVerificationOtp } }
-      : {}),
+    temporaryForFasterCheckingOtp: emailVerificationOtp,
   };
 };
 
@@ -182,7 +180,7 @@ export const resendEmailVerification = async (email: string) => {
 
   return {
     message: 'A verification code has been sent to the email address.',
-    ...(env.NODE_ENV === 'development' ? { dev: { emailVerificationOtp } } : {}),
+    temporaryForFasterCheckingOtp: emailVerificationOtp,
   };
 };
 
@@ -207,7 +205,7 @@ export const forgotPassword = async (email: string) => {
 
   return {
     message: 'A password reset link has been sent to the email address.',
-    ...(env.NODE_ENV === 'development' ? { dev: { passwordResetToken } } : {}),
+    temporaryForFasterCheckingPasswordResetToken: passwordResetToken,
   };
 };
 
