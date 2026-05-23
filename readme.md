@@ -1,6 +1,8 @@
 # Bill-Nest Backend
 
 Bill-Nest is a secure subscription and billing backend API built with Node.js, Express, TypeScript, MongoDB, Mongoose, JWT authentication, and Stripe. It supports client authentication, subscription plans, subscription purchase, upgrade, cancellation, and webhook-based payment updates.
+Postman collection/docs: https://documenter.getpostman.com/view/55148439/2sBXwjwuCR
+Live backend URL: https://bill-nest-backend.onrender.com
 
 ## Tech Stack
 
@@ -216,6 +218,7 @@ If you use Postman, import your collection and set:
 
 - base URL: `http://localhost:5000/api/v1`
 - Bearer token from login for protected routes
+- Live documentation: `https://documenter.getpostman.com/view/55148439/2sBXwjwuCR`
 
 ## Evaluation Checklist
 
