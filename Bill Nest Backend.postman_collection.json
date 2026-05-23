@@ -1069,7 +1069,7 @@
             ],
             "body": {
               "mode": "raw",
-              "raw": "{\"description\":\"Updated growth plan description.\",\"price\":5.99,\"features\":[\"Growth access\",\"Priority support\",\"Team dashboard\",\"Advanced reports\"],\"isPopular\":true,\"sortOrder\":4}",
+              "raw": "{\r\n    \"description\": \"Updated growth plan description.\",\r\n    \"price\": 300,\r\n    \"name\": \"mela\",\r\n    \"slug\": \"mela\",\r\n    \"features\": [\r\n        \"Growth access\",\r\n        \"Priority support\",\r\n        \"Team dashboard\",\r\n        \"Advanced reports\"\r\n    ],\r\n    \"isPopular\": true,\r\n    \"sortOrder\": 4\r\n}",
               "options": {
                 "raw": {
                   "language": "json"
@@ -1300,7 +1300,7 @@
             ],
             "body": {
               "mode": "raw",
-              "raw": "{\n  \"planId\": \"{{planId}}\",\n  \"autoRenew\": true\n}",
+              "raw": "{\n  \"planId\": \"{{planId}}\",\n  \"autoRenew\": false\n}",
               "options": {
                 "raw": {
                   "language": "json"
@@ -1572,6 +1572,42 @@
                 "v1",
                 "subscriptions",
                 "cancel"
+              ]
+            },
+            "description": "Client endpoint to fetch the authenticated user's current subscription.\n\n- Only period-end cancel is supported now.\n    \n- It schedules cancellation (does not cut access immediately).\n    \n- User keeps access until expiry date."
+          },
+          "response": []
+        },
+        {
+          "name": "Resume  Current Cancelled Subscription",
+          "request": {
+            "method": "PATCH",
+            "header": [
+              {
+                "key": "Authorization",
+                "value": "Bearer {{clientAccessToken}}",
+                "disabled": false
+              }
+            ],
+            "body": {
+              "mode": "raw",
+              "raw": "{\r\n  \"cancelAtPeriodEnd\": true\r\n}\r\n",
+              "options": {
+                "raw": {
+                  "language": "json"
+                }
+              }
+            },
+            "url": {
+              "raw": "{{base_url}}/api/v1/subscriptions/resume",
+              "host": [
+                "{{base_url}}"
+              ],
+              "path": [
+                "api",
+                "v1",
+                "subscriptions",
+                "resume"
               ]
             },
             "description": "Client endpoint to fetch the authenticated user's current subscription.\n\n- Only period-end cancel is supported now.\n    \n- It schedules cancellation (does not cut access immediately).\n    \n- User keeps access until expiry date."
