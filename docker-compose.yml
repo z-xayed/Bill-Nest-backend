@@ -1,23 +1,49 @@
 services:
   api:
-    build: .
+    build:
+      context: .
+      target: runner
+    image: bill-nest-api:latest
     ports:
       - "5000:5000"
     env_file:
       - .env
     environment:
-      MONGO_URI: mongodb://mongo:27017/bill_nest
+      NODE_ENV: production
+      PORT: 5000
+      MONGO_URI: mongodb://${MONGO_ROOT_USERNAME:-billnest}:${MONGO_ROOT_PASSWORD:-billnest_password}@mongo:27017/${MONGO_DB_NAME:-bill_nest}?authSource=admin
     depends_on:
-      - mongo
+      mongo:
+        condition: service_healthy
     restart: unless-stopped
+    healthcheck:
+      test: ["CMD", "node", "-e", "fetch('http://127.0.0.1:5000/api/v1/health').then(r=>process.exit(r.ok?0:1)).catch(()=>process.exit(1))"]
+      interval: 30s
+      timeout: 5s
+      retries: 5
+      start_period: 40s
 
   mongo:
     image: mongo:7
+    environment:
+      MONGO_INITDB_ROOT_USERNAME: ${MONGO_ROOT_USERNAME:-billnest}
+      MONGO_INITDB_ROOT_PASSWORD: ${MONGO_ROOT_PASSWORD:-billnest_password}
+      MONGO_INITDB_DATABASE: ${MONGO_DB_NAME:-bill_nest}
     ports:
       - "27017:27017"
     volumes:
       - mongo_data:/data/db
     restart: unless-stopped
+    healthcheck:
+      test:
+        [
+          "CMD-SHELL",
+          "mongosh --quiet --username ${MONGO_ROOT_USERNAME:-billnest} --password ${MONGO_ROOT_PASSWORD:-billnest_password} --authenticationDatabase admin --eval \"db.adminCommand('ping').ok\"",
+        ]
+      interval: 15s
+      timeout: 10s
+      retries: 10
+      start_period: 20s
 
 volumes:
   mongo_data:

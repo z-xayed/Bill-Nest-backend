@@ -1,9 +1,10 @@
 {
   "info": {
-    "_postman_id": "97349f53-219a-452b-8d42-b93882111916",
+    "_postman_id": "24ee5962-4a1a-43e2-93cd-1e1e4e3adbe1",
     "name": "Bill Nest Backend",
     "schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json",
-    "_exporter_id": "39781146"
+    "_exporter_id": "55148439",
+    "_collection_link": "https://go.postman.co/collection/55148439-24ee5962-4a1a-43e2-93cd-1e1e4e3adbe1?source=collection_link"
   },
   "item": [
     {
@@ -40,13 +41,15 @@
             {
               "listen": "test",
               "script": {
-                "type": "text/javascript",
                 "exec": [
                   "const res = pm.response.json();",
                   "if (res.data && res.data.emailVerificationToken) {",
                   "  pm.environment.set(\"emailVerificationToken\", res.data.emailVerificationToken);",
                   "}"
-                ]
+                ],
+                "type": "text/javascript",
+                "packages": {},
+                "requests": {}
               }
             }
           ],
@@ -55,13 +58,12 @@
             "header": [
               {
                 "key": "Content-Type",
-                "value": "application/json",
-                "disabled": false
+                "value": "application/json"
               }
             ],
             "body": {
               "mode": "raw",
-              "raw": "{\"name\": \"John Doe\", \"email\": \"john@example.com\", \"password\": \"Password123\"}",
+              "raw": "{\r\n    \"name\": \"John Doe\",\r\n    \"email\": \"john@exafsmple.com\",\r\n    \"password\": \"Password123\"\r\n}",
               "options": {
                 "raw": {
                   "language": "json"
@@ -91,13 +93,12 @@
             "header": [
               {
                 "key": "Content-Type",
-                "value": "application/json",
-                "disabled": false
+                "value": "application/json"
               }
             ],
             "body": {
               "mode": "raw",
-              "raw": "{\"token\": \"{{emailVerificationToken}}\"}",
+              "raw": "{\r\n    \"otp\": \"152297\"\r\n}",
               "options": {
                 "raw": {
                   "language": "json"
@@ -127,8 +128,7 @@
             "header": [
               {
                 "key": "Content-Type",
-                "value": "application/json",
-                "disabled": false
+                "value": "application/json"
               }
             ],
             "body": {
@@ -163,13 +163,12 @@
             "header": [
               {
                 "key": "Content-Type",
-                "value": "application/json",
-                "disabled": false
+                "value": "application/json"
               }
             ],
             "body": {
               "mode": "raw",
-              "raw": "{\"email\": \"john@example.com\", \"password\": \"Password123\"}",
+              "raw": "// {\r\n//     \"email\": \"client@billnest.dev\",\r\n//     \"password\": \"ClientPass123\"\r\n// }\r\n{\r\n    \"email\": \"admin@billnest.dev\",\r\n    \"password\": \"AdminPass123\"\r\n}",
               "options": {
                 "raw": {
                   "language": "json"
@@ -236,13 +235,12 @@
             "header": [
               {
                 "key": "Content-Type",
-                "value": "application/json",
-                "disabled": false
+                "value": "application/json"
               }
             ],
             "body": {
               "mode": "raw",
-              "raw": "{\"refreshToken\": \"{{refreshToken}}\"}",
+              "raw": "",
               "options": {
                 "raw": {
                   "language": "json"
@@ -272,8 +270,7 @@
             "header": [
               {
                 "key": "Content-Type",
-                "value": "application/json",
-                "disabled": false
+                "value": "application/json"
               }
             ],
             "body": {
@@ -308,8 +305,7 @@
             "header": [
               {
                 "key": "Content-Type",
-                "value": "application/json",
-                "disabled": false
+                "value": "application/json"
               }
             ],
             "body": {
@@ -344,13 +340,12 @@
             "header": [
               {
                 "key": "Content-Type",
-                "value": "application/json",
-                "disabled": false
+                "value": "application/json"
               }
             ],
             "body": {
               "mode": "raw",
-              "raw": "{\"token\": \"{{passwordResetToken}}\", \"newPassword\": \"NewPassword123\"}",
+              "raw": "{\"token\": \"{{passwordResetToken}}\", \"newPassword\": \"12345678\"}",
               "options": {
                 "raw": {
                   "language": "json"
@@ -380,13 +375,11 @@
             "header": [
               {
                 "key": "Content-Type",
-                "value": "application/json",
-                "disabled": false
+                "value": "application/json"
               },
               {
                 "key": "Authorization",
-                "value": "Bearer {{accessToken}}",
-                "disabled": false
+                "value": "Bearer {{accessToken}}"
               }
             ],
             "body": {
@@ -426,18 +419,16 @@
             "header": [
               {
                 "key": "Authorization",
-                "value": "Bearer {{adminAccessToken}}",
-                "disabled": false
+                "value": "Bearer {{adminAccessToken}}"
               },
               {
                 "key": "Content-Type",
-                "value": "application/json",
-                "disabled": false
+                "value": "application/json"
               }
             ],
             "body": {
               "mode": "raw",
-              "raw": "{\"name\":\"Growth\",\"description\":\"Growth plan for scaling businesses.\",\"price\":49.99,\"currency\":\"usd\",\"interval\":\"month\",\"features\":[\"Growth access\",\"Priority support\",\"Team dashboard\"],\"trialDays\":14,\"isPopular\":false,\"sortOrder\":4}",
+              "raw": "{\r\n    \"name\": \"Kala\",\r\n    \"description\": \"KAla plan for scaling businesses.\",\r\n    \"price\": 100,\r\n    \"currency\": \"usd\",\r\n    \"interval\": \"month\",\r\n    \"features\": [\r\n        \"KAla access\",\r\n        \"Priority support\",\r\n        \"Team dashboard\"\r\n    ],\r\n    \"trialDays\": 14,\r\n    \"isPopular\": false,\r\n    \"sortOrder\": 4\r\n}",
               "options": {
                 "raw": {
                   "language": "json"
@@ -514,7 +505,7 @@
               "body": "{\"success\":true,\"message\":\"Plan created successfully\",\"data\":{\"plan\":{\"_id\":\"PLAN_ID\",\"name\":\"Growth\",\"slug\":\"growth\",\"description\":\"Growth plan for scaling businesses.\",\"price\":49.99,\"currency\":\"usd\",\"interval\":\"month\",\"features\":[\"Growth access\",\"Priority support\",\"Team dashboard\"],\"trialDays\":14,\"isActive\":true,\"isPopular\":false,\"sortOrder\":4,\"createdBy\":\"ADMIN_USER_ID\",\"createdAt\":\"2026-05-23T00:00:00.000Z\",\"updatedAt\":\"2026-05-23T00:00:00.000Z\"}}}"
             },
             {
-              "name": "Create Plan - Error (Common)",
+              "name": "Create Plan Error",
               "originalRequest": {
                 "method": "POST",
                 "header": [
@@ -529,7 +520,7 @@
                 ],
                 "body": {
                   "mode": "raw",
-                  "raw": "{\"name\":\"Growth\",\"description\":\"Growth plan for scaling businesses.\",\"price\":49.99,\"currency\":\"usd\",\"interval\":\"month\",\"features\":[\"Growth access\",\"Priority support\",\"Team dashboard\"],\"trialDays\":14,\"isPopular\":false,\"sortOrder\":4}",
+                  "raw": "{\r\n    \"name\": \"Kela\",\r\n    \"description\": \"Kela plan for scaling businesses.\",\r\n    \"price\": 100,\r\n    \"currency\": \"usd\",\r\n    \"interval\": \"month\",\r\n    \"features\": [\r\n        \"Kela access\",\r\n        \"Priority support\",\r\n        \"Team dashboard\"\r\n    ],\r\n    \"trialDays\": 14,\r\n    \"isPopular\": false,\r\n    \"sortOrder\": 4\r\n}",
                   "options": {
                     "raw": {
                       "language": "json"
@@ -548,25 +539,117 @@
                   ]
                 }
               },
-              "status": "Not Found",
-              "code": 404,
-              "_postman_previewlanguage": "json",
+              "status": "Conflict",
+              "code": 409,
+              "_postman_previewlanguage": null,
               "header": [
                 {
-                  "key": "Authorization",
-                  "value": "Bearer {{adminAccessToken}}",
-                  "description": "",
-                  "enabled": true
+                  "key": "X-Request-Id",
+                  "value": "019e557f-2a34-71c7-b547-1c99df8e2f0a"
+                },
+                {
+                  "key": "Content-Security-Policy",
+                  "value": "default-src 'self';base-uri 'self';font-src 'self' https: data:;form-action 'self';frame-ancestors 'self';img-src 'self' data:;object-src 'none';script-src 'self';script-src-attr 'none';style-src 'self' https: 'unsafe-inline';upgrade-insecure-requests"
+                },
+                {
+                  "key": "Cross-Origin-Opener-Policy",
+                  "value": "same-origin"
+                },
+                {
+                  "key": "Cross-Origin-Resource-Policy",
+                  "value": "same-origin"
+                },
+                {
+                  "key": "Origin-Agent-Cluster",
+                  "value": "?1"
+                },
+                {
+                  "key": "Referrer-Policy",
+                  "value": "no-referrer"
+                },
+                {
+                  "key": "Strict-Transport-Security",
+                  "value": "max-age=31536000; includeSubDomains"
+                },
+                {
+                  "key": "X-Content-Type-Options",
+                  "value": "nosniff"
+                },
+                {
+                  "key": "X-DNS-Prefetch-Control",
+                  "value": "off"
+                },
+                {
+                  "key": "X-Download-Options",
+                  "value": "noopen"
+                },
+                {
+                  "key": "X-Frame-Options",
+                  "value": "SAMEORIGIN"
+                },
+                {
+                  "key": "X-Permitted-Cross-Domain-Policies",
+                  "value": "none"
+                },
+                {
+                  "key": "X-XSS-Protection",
+                  "value": "0"
+                },
+                {
+                  "key": "Access-Control-Allow-Origin",
+                  "value": "http://localhost:3000"
+                },
+                {
+                  "key": "Vary",
+                  "value": "Origin, Accept-Encoding"
+                },
+                {
+                  "key": "Access-Control-Allow-Credentials",
+                  "value": "true"
+                },
+                {
+                  "key": "RateLimit-Policy",
+                  "value": "300;w=900"
+                },
+                {
+                  "key": "RateLimit-Limit",
+                  "value": "300"
+                },
+                {
+                  "key": "RateLimit-Remaining",
+                  "value": "296"
+                },
+                {
+                  "key": "RateLimit-Reset",
+                  "value": "790"
                 },
                 {
                   "key": "Content-Type",
-                  "value": "application/json",
-                  "description": "",
-                  "enabled": true
+                  "value": "application/json; charset=utf-8"
+                },
+                {
+                  "key": "Content-Length",
+                  "value": "171"
+                },
+                {
+                  "key": "ETag",
+                  "value": "W/\"ab-C2bZfea8tG9FIa4wTmCmG7pFiq8\""
+                },
+                {
+                  "key": "Date",
+                  "value": "Sat, 23 May 2026 15:40:57 GMT"
+                },
+                {
+                  "key": "Connection",
+                  "value": "keep-alive"
+                },
+                {
+                  "key": "Keep-Alive",
+                  "value": "timeout=5"
                 }
               ],
               "cookie": [],
-              "body": "{\"success\":false,\"message\":\"Plan not found\",\"error\":{\"code\":\"PLAN_NOT_FOUND\",\"details\":null},\"requestId\":\"REQUEST_ID\"}"
+              "body": "{\n    \"success\": false,\n    \"statusCode\": 409,\n    \"message\": \"Plan already exists\",\n    \"error\": {\n        \"code\": \"PLAN_ALREADY_EXISTS\",\n        \"details\": null\n    },\n    \"requestId\": \"019e557f-2a34-71c7-b547-1c99df8e2f0a\"\n}"
             }
           ]
         },
@@ -609,8 +692,7 @@
                   "variable": [
                     {
                       "key": "planId",
-                      "value": "PLAN_ID",
-                      "enabled": true
+                      "value": "PLAN_ID"
                     }
                   ]
                 }
@@ -631,8 +713,7 @@
             "header": [
               {
                 "key": "Authorization",
-                "value": "Bearer {{adminAccessToken}}",
-                "disabled": false
+                "value": "Bearer {{adminAccessToken}}"
               }
             ],
             "url": {
@@ -676,8 +757,7 @@
                   "variable": [
                     {
                       "key": "planId",
-                      "value": "PLAN_ID",
-                      "enabled": true
+                      "value": "PLAN_ID"
                     }
                   ]
                 }
@@ -721,8 +801,7 @@
                   "variable": [
                     {
                       "key": "planId",
-                      "value": "PLAN_ID",
-                      "enabled": true
+                      "value": "PLAN_ID"
                     }
                   ]
                 }
@@ -749,7 +828,7 @@
             "method": "GET",
             "header": [],
             "url": {
-              "raw": "{{base_url}}/api/v1/plans?page=1&limit=10&search=pro&interval=month&currency=usd&isActive=true&minPrice=&maxPrice=&sortBy=price&sortOrder=asc",
+              "raw": "{{base_url}}/api/v1/plans?page=1&limit=10&interval=month&currency=usd&isActive=true&minPrice=&maxPrice=",
               "host": [
                 "{{base_url}}"
               ],
@@ -769,7 +848,8 @@
                 },
                 {
                   "key": "search",
-                  "value": "pro"
+                  "value": "kela",
+                  "disabled": true
                 },
                 {
                   "key": "interval",
@@ -793,11 +873,13 @@
                 },
                 {
                   "key": "sortBy",
-                  "value": "price"
+                  "value": "price",
+                  "disabled": true
                 },
                 {
                   "key": "sortOrder",
-                  "value": "asc"
+                  "value": "asc",
+                  "disabled": true
                 }
               ]
             },
@@ -806,117 +888,13 @@
           "response": []
         },
         {
-          "name": "Get All Plans",
-          "request": {
-            "method": "GET",
-            "header": [],
-            "url": {
-              "raw": "{{base_url}}/api/v1/plans?page=1&limit=10",
-              "host": [
-                "{{base_url}}"
-              ],
-              "path": [
-                "api",
-                "v1",
-                "plans"
-              ],
-              "query": [
-                {
-                  "key": "page",
-                  "value": "1"
-                },
-                {
-                  "key": "limit",
-                  "value": "10"
-                }
-              ]
-            },
-            "description": "Returns paginated public subscription plans."
-          },
-          "response": [
-            {
-              "name": "Get All Plans - Success",
-              "originalRequest": {
-                "method": "GET",
-                "header": [],
-                "url": {
-                  "raw": "{{base_url}}/api/v1/plans?page=1&limit=10",
-                  "host": [
-                    "{{base_url}}"
-                  ],
-                  "path": [
-                    "api",
-                    "v1",
-                    "plans"
-                  ],
-                  "query": [
-                    {
-                      "key": "page",
-                      "value": "1",
-                      "type": "text"
-                    },
-                    {
-                      "key": "limit",
-                      "value": "10",
-                      "type": "text"
-                    }
-                  ]
-                }
-              },
-              "status": "OK",
-              "code": 200,
-              "_postman_previewlanguage": "json",
-              "header": [],
-              "cookie": [],
-              "body": "{\"success\":true,\"message\":\"Plans retrieved successfully\",\"data\":{\"plans\":[],\"meta\":{\"page\":1,\"limit\":10,\"total\":0,\"totalPages\":0}}}"
-            },
-            {
-              "name": "Get All Plans - Error (Plan Not Found)",
-              "originalRequest": {
-                "method": "GET",
-                "header": [],
-                "url": {
-                  "raw": "{{base_url}}/api/v1/plans?page=1&limit=10",
-                  "host": [
-                    "{{base_url}}"
-                  ],
-                  "path": [
-                    "api",
-                    "v1",
-                    "plans"
-                  ],
-                  "query": [
-                    {
-                      "key": "page",
-                      "value": "1",
-                      "type": "text"
-                    },
-                    {
-                      "key": "limit",
-                      "value": "10",
-                      "type": "text"
-                    }
-                  ]
-                }
-              },
-              "status": "Not Found",
-              "code": 404,
-              "_postman_previewlanguage": "json",
-              "header": [],
-              "cookie": [],
-              "body": "{\"success\":false,\"message\":\"Plan not found\",\"error\":{\"code\":\"PLAN_NOT_FOUND\",\"details\":null},\"requestId\":\"REQUEST_ID\"}"
-            }
-          ]
-        },
-        {
           "name": "Soft Delete Plan",
           "request": {
             "method": "DELETE",
             "header": [
               {
                 "key": "Authorization",
-                "value": "Bearer {{adminAccessToken}}",
-                "disabled": false
+                "value": "Bearer {{adminAccessToken}}"
               }
             ],
             "url": {
@@ -958,8 +936,7 @@
                   "variable": [
                     {
                       "key": "planId",
-                      "value": "PLAN_ID",
-                      "enabled": true
+                      "value": "PLAN_ID"
                     }
                   ]
                 }
@@ -1002,8 +979,7 @@
                   "variable": [
                     {
                       "key": "planId",
-                      "value": "PLAN_ID",
-                      "enabled": true
+                      "value": "PLAN_ID"
                     }
                   ]
                 }
@@ -1063,8 +1039,7 @@
                   "variable": [
                     {
                       "key": "planSlug",
-                      "value": "growth",
-                      "enabled": true
+                      "value": "growth"
                     }
                   ]
                 }
@@ -1085,18 +1060,16 @@
             "header": [
               {
                 "key": "Authorization",
-                "value": "Bearer {{adminAccessToken}}",
-                "disabled": false
+                "value": "Bearer {{adminAccessToken}}"
               },
               {
                 "key": "Content-Type",
-                "value": "application/json",
-                "disabled": false
+                "value": "application/json"
               }
             ],
             "body": {
               "mode": "raw",
-              "raw": "{\"description\":\"Updated growth plan description.\",\"price\":59.99,\"features\":[\"Growth access\",\"Priority support\",\"Team dashboard\",\"Advanced reports\"],\"isPopular\":true,\"sortOrder\":4}",
+              "raw": "{\"description\":\"Updated growth plan description.\",\"price\":5.99,\"features\":[\"Growth access\",\"Priority support\",\"Team dashboard\",\"Advanced reports\"],\"isPopular\":true,\"sortOrder\":4}",
               "options": {
                 "raw": {
                   "language": "json"
@@ -1155,8 +1128,7 @@
                   "variable": [
                     {
                       "key": "planId",
-                      "value": "PLAN_ID",
-                      "enabled": true
+                      "value": "PLAN_ID"
                     }
                   ]
                 }
@@ -1218,8 +1190,7 @@
                   "variable": [
                     {
                       "key": "planId",
-                      "value": "PLAN_ID",
-                      "enabled": true
+                      "value": "PLAN_ID"
                     }
                   ]
                 }
@@ -1247,6 +1218,605 @@
           ]
         }
       ]
+    },
+    {
+      "name": "Plans - Stripe Sync",
+      "item": [
+        {
+          "name": "Sync Single Plan With Stripe",
+          "request": {
+            "method": "POST",
+            "header": [
+              {
+                "key": "Authorization",
+                "value": "Bearer {{adminAccessToken}}",
+                "disabled": false
+              }
+            ],
+            "url": {
+              "raw": "{{base_url}}/api/v1/plans/{{planId}}/sync-stripe",
+              "host": [
+                "{{base_url}}"
+              ],
+              "path": [
+                "api",
+                "v1",
+                "plans",
+                "{{planId}}",
+                "sync-stripe"
+              ]
+            },
+            "description": "Admin-only endpoint to sync a single plan with Stripe using the plan ID."
+          },
+          "response": []
+        },
+        {
+          "name": "Sync All Plans With Stripe",
+          "request": {
+            "method": "POST",
+            "header": [
+              {
+                "key": "Authorization",
+                "value": "Bearer {{adminAccessToken}}",
+                "disabled": false
+              }
+            ],
+            "url": {
+              "raw": "{{base_url}}/api/v1/plans/sync-stripe",
+              "host": [
+                "{{base_url}}"
+              ],
+              "path": [
+                "api",
+                "v1",
+                "plans",
+                "sync-stripe"
+              ]
+            },
+            "description": "Admin-only endpoint to sync all eligible plans with Stripe."
+          },
+          "response": []
+        }
+      ]
+    },
+    {
+      "name": "Subscriptions",
+      "item": [
+        {
+          "name": "Purchase Subscription",
+          "request": {
+            "method": "POST",
+            "header": [
+              {
+                "key": "Authorization",
+                "value": "Bearer {{clientAccessToken}}",
+                "disabled": false
+              },
+              {
+                "key": "Content-Type",
+                "value": "application/json",
+                "disabled": false
+              }
+            ],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"planId\": \"{{planId}}\",\n  \"autoRenew\": true\n}",
+              "options": {
+                "raw": {
+                  "language": "json"
+                }
+              }
+            },
+            "url": {
+              "raw": "{{base_url}}/api/v1/subscriptions/purchase",
+              "host": [
+                "{{base_url}}"
+              ],
+              "path": [
+                "api",
+                "v1",
+                "subscriptions",
+                "purchase"
+              ]
+            },
+            "description": "Client endpoint to initiate a subscription purchase for a plan."
+          },
+          "response": []
+        },
+        {
+          "name": "Upgrade Subscription",
+          "request": {
+            "method": "POST",
+            "header": [
+              {
+                "key": "Authorization",
+                "value": "Bearer {{clientAccessToken}}",
+                "disabled": false
+              },
+              {
+                "key": "Content-Type",
+                "value": "application/json",
+                "disabled": false
+              }
+            ],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"planId\": \"{{planId}}\",\n  \"autoRenew\": true\n}",
+              "options": {
+                "raw": {
+                  "language": "json"
+                }
+              }
+            },
+            "url": {
+              "raw": "{{base_url}}/api/v1/subscriptions/upgrade",
+              "host": [
+                "{{base_url}}"
+              ],
+              "path": [
+                "api",
+                "v1",
+                "subscriptions",
+                "upgrade"
+              ]
+            },
+            "description": "Client endpoint to initiate a subscription purchase for a plan."
+          },
+          "response": [
+            {
+              "name": "Upgrade Subscription Error",
+              "originalRequest": {
+                "method": "POST",
+                "header": [
+                  {
+                    "key": "Authorization",
+                    "value": "Bearer {{clientAccessToken}}",
+                    "disabled": false
+                  },
+                  {
+                    "key": "Content-Type",
+                    "value": "application/json",
+                    "disabled": false
+                  }
+                ],
+                "body": {
+                  "mode": "raw",
+                  "raw": "{\n  \"planId\": \"{{planId}}\"\n}",
+                  "options": {
+                    "raw": {
+                      "language": "json"
+                    }
+                  }
+                },
+                "url": {
+                  "raw": "{{base_url}}/api/v1/subscriptions/upgrade",
+                  "host": [
+                    "{{base_url}}"
+                  ],
+                  "path": [
+                    "api",
+                    "v1",
+                    "subscriptions",
+                    "upgrade"
+                  ]
+                }
+              },
+              "status": "Bad Request",
+              "code": 400,
+              "_postman_previewlanguage": null,
+              "header": [
+                {
+                  "key": "X-Request-Id",
+                  "value": "019e558c-df2f-70fb-b0d3-e5872809b3a7"
+                },
+                {
+                  "key": "Content-Security-Policy",
+                  "value": "default-src 'self';base-uri 'self';font-src 'self' https: data:;form-action 'self';frame-ancestors 'self';img-src 'self' data:;object-src 'none';script-src 'self';script-src-attr 'none';style-src 'self' https: 'unsafe-inline';upgrade-insecure-requests"
+                },
+                {
+                  "key": "Cross-Origin-Opener-Policy",
+                  "value": "same-origin"
+                },
+                {
+                  "key": "Cross-Origin-Resource-Policy",
+                  "value": "same-origin"
+                },
+                {
+                  "key": "Origin-Agent-Cluster",
+                  "value": "?1"
+                },
+                {
+                  "key": "Referrer-Policy",
+                  "value": "no-referrer"
+                },
+                {
+                  "key": "Strict-Transport-Security",
+                  "value": "max-age=31536000; includeSubDomains"
+                },
+                {
+                  "key": "X-Content-Type-Options",
+                  "value": "nosniff"
+                },
+                {
+                  "key": "X-DNS-Prefetch-Control",
+                  "value": "off"
+                },
+                {
+                  "key": "X-Download-Options",
+                  "value": "noopen"
+                },
+                {
+                  "key": "X-Frame-Options",
+                  "value": "SAMEORIGIN"
+                },
+                {
+                  "key": "X-Permitted-Cross-Domain-Policies",
+                  "value": "none"
+                },
+                {
+                  "key": "X-XSS-Protection",
+                  "value": "0"
+                },
+                {
+                  "key": "Access-Control-Allow-Origin",
+                  "value": "http://localhost:3000"
+                },
+                {
+                  "key": "Vary",
+                  "value": "Origin, Accept-Encoding"
+                },
+                {
+                  "key": "Access-Control-Allow-Credentials",
+                  "value": "true"
+                },
+                {
+                  "key": "RateLimit-Policy",
+                  "value": "300;w=900"
+                },
+                {
+                  "key": "RateLimit-Limit",
+                  "value": "300"
+                },
+                {
+                  "key": "RateLimit-Remaining",
+                  "value": "294"
+                },
+                {
+                  "key": "RateLimit-Reset",
+                  "value": "808"
+                },
+                {
+                  "key": "Content-Type",
+                  "value": "application/json; charset=utf-8"
+                },
+                {
+                  "key": "Content-Length",
+                  "value": "191"
+                },
+                {
+                  "key": "ETag",
+                  "value": "W/\"bf-31APLeKTt1PZwAflk91rm0h7d7I\""
+                },
+                {
+                  "key": "Date",
+                  "value": "Sat, 23 May 2026 15:55:56 GMT"
+                },
+                {
+                  "key": "Connection",
+                  "value": "keep-alive"
+                },
+                {
+                  "key": "Keep-Alive",
+                  "value": "timeout=5"
+                }
+              ],
+              "cookie": [],
+              "body": "{\n    \"success\": false,\n    \"statusCode\": 400,\n    \"message\": \"Selected plan is not valid for upgrade\",\n    \"error\": {\n        \"code\": \"INVALID_UPGRADE_PLAN\",\n        \"details\": null\n    },\n    \"requestId\": \"019e558c-df2f-70fb-b0d3-e5872809b3a7\"\n}"
+            }
+          ]
+        },
+        {
+          "name": "Get Current Subscription",
+          "request": {
+            "method": "GET",
+            "header": [
+              {
+                "key": "Authorization",
+                "value": "Bearer {{clientAccessToken}}",
+                "disabled": false
+              }
+            ],
+            "url": {
+              "raw": "{{base_url}}/api/v1/subscriptions/current",
+              "host": [
+                "{{base_url}}"
+              ],
+              "path": [
+                "api",
+                "v1",
+                "subscriptions",
+                "current"
+              ]
+            },
+            "description": "Client endpoint to fetch the authenticated user's current subscription."
+          },
+          "response": []
+        },
+        {
+          "name": "Cancel Current Subscription",
+          "request": {
+            "method": "PATCH",
+            "header": [
+              {
+                "key": "Authorization",
+                "value": "Bearer {{clientAccessToken}}",
+                "disabled": false
+              }
+            ],
+            "body": {
+              "mode": "raw",
+              "raw": "{\r\n  \"cancelAtPeriodEnd\": true\r\n}\r\n",
+              "options": {
+                "raw": {
+                  "language": "json"
+                }
+              }
+            },
+            "url": {
+              "raw": "{{base_url}}/api/v1/subscriptions/cancel",
+              "host": [
+                "{{base_url}}"
+              ],
+              "path": [
+                "api",
+                "v1",
+                "subscriptions",
+                "cancel"
+              ]
+            },
+            "description": "Client endpoint to fetch the authenticated user's current subscription.\n\n- Only period-end cancel is supported now.\n    \n- It schedules cancellation (does not cut access immediately).\n    \n- User keeps access until expiry date."
+          },
+          "response": []
+        },
+        {
+          "name": "All Subs Users",
+          "request": {
+            "method": "GET",
+            "header": [
+              {
+                "key": "Authorization",
+                "value": "Bearer {{adminAccessToken}}",
+                "type": "text"
+              }
+            ],
+            "url": {
+              "raw": "{{base_url}}/api/v1/subscriptions/subscribed-users?page=1&limit=10",
+              "host": [
+                "{{base_url}}"
+              ],
+              "path": [
+                "api",
+                "v1",
+                "subscriptions",
+                "subscribed-users"
+              ],
+              "query": [
+                {
+                  "key": "page",
+                  "value": "1"
+                },
+                {
+                  "key": "limit",
+                  "value": "10"
+                }
+              ]
+            }
+          },
+          "response": [
+            {
+              "name": "All Subs Users",
+              "originalRequest": {
+                "method": "GET",
+                "header": [
+                  {
+                    "key": "Authorization",
+                    "value": "Bearer {{adminAccessToken}}",
+                    "type": "text"
+                  }
+                ],
+                "url": {
+                  "raw": "{{base_url}}/api/v1/subscriptions/subscribed-users?page&limit",
+                  "host": [
+                    "{{base_url}}"
+                  ],
+                  "path": [
+                    "api",
+                    "v1",
+                    "subscriptions",
+                    "subscribed-users"
+                  ],
+                  "query": [
+                    {
+                      "key": "page",
+                      "value": null
+                    },
+                    {
+                      "key": "limit",
+                      "value": null
+                    }
+                  ]
+                }
+              },
+              "status": "OK",
+              "code": 200,
+              "_postman_previewlanguage": null,
+              "header": [
+                {
+                  "key": "X-Request-Id",
+                  "value": "019e5599-d246-73ea-ad33-7ada841a14c7"
+                },
+                {
+                  "key": "Content-Security-Policy",
+                  "value": "default-src 'self';base-uri 'self';font-src 'self' https: data:;form-action 'self';frame-ancestors 'self';img-src 'self' data:;object-src 'none';script-src 'self';script-src-attr 'none';style-src 'self' https: 'unsafe-inline';upgrade-insecure-requests"
+                },
+                {
+                  "key": "Cross-Origin-Opener-Policy",
+                  "value": "same-origin"
+                },
+                {
+                  "key": "Cross-Origin-Resource-Policy",
+                  "value": "same-origin"
+                },
+                {
+                  "key": "Origin-Agent-Cluster",
+                  "value": "?1"
+                },
+                {
+                  "key": "Referrer-Policy",
+                  "value": "no-referrer"
+                },
+                {
+                  "key": "Strict-Transport-Security",
+                  "value": "max-age=31536000; includeSubDomains"
+                },
+                {
+                  "key": "X-Content-Type-Options",
+                  "value": "nosniff"
+                },
+                {
+                  "key": "X-DNS-Prefetch-Control",
+                  "value": "off"
+                },
+                {
+                  "key": "X-Download-Options",
+                  "value": "noopen"
+                },
+                {
+                  "key": "X-Frame-Options",
+                  "value": "SAMEORIGIN"
+                },
+                {
+                  "key": "X-Permitted-Cross-Domain-Policies",
+                  "value": "none"
+                },
+                {
+                  "key": "X-XSS-Protection",
+                  "value": "0"
+                },
+                {
+                  "key": "Access-Control-Allow-Origin",
+                  "value": "http://localhost:3000"
+                },
+                {
+                  "key": "Vary",
+                  "value": "Origin, Accept-Encoding"
+                },
+                {
+                  "key": "Access-Control-Allow-Credentials",
+                  "value": "true"
+                },
+                {
+                  "key": "RateLimit-Policy",
+                  "value": "300;w=900"
+                },
+                {
+                  "key": "RateLimit-Limit",
+                  "value": "300"
+                },
+                {
+                  "key": "RateLimit-Remaining",
+                  "value": "298"
+                },
+                {
+                  "key": "RateLimit-Reset",
+                  "value": "849"
+                },
+                {
+                  "key": "Content-Type",
+                  "value": "application/json; charset=utf-8"
+                },
+                {
+                  "key": "ETag",
+                  "value": "W/\"4be-EtUsxbYZmXqsgqYQa10pBMhgAYY\""
+                },
+                {
+                  "key": "Content-Encoding",
+                  "value": "br"
+                },
+                {
+                  "key": "Date",
+                  "value": "Sat, 23 May 2026 16:10:04 GMT"
+                },
+                {
+                  "key": "Connection",
+                  "value": "keep-alive"
+                },
+                {
+                  "key": "Keep-Alive",
+                  "value": "timeout=5"
+                },
+                {
+                  "key": "Transfer-Encoding",
+                  "value": "chunked"
+                }
+              ],
+              "cookie": [],
+              "body": "{\n    \"success\": true,\n    \"message\": \"Subscribed users retrieved successfully\",\n    \"data\": {\n        \"subscriptions\": [\n            {\n                \"_id\": \"6a11cc925ea182409069a9c9\",\n                \"subscriptionRef\": \"sub_019e5587-17bb-74e4-8934-9eb1c59d24c2\",\n                \"userId\": {\n                    \"_id\": \"6a11c68ef05bda13492ecb3e\",\n                    \"name\": \"John Doe\",\n                    \"email\": \"john@example.com\",\n                    \"role\": \"client\",\n                    \"status\": \"active\",\n                    \"isEmailVerified\": true,\n                    \"createdAt\": \"2026-05-23T15:23:58.555Z\"\n                },\n                \"planId\": {\n                    \"_id\": \"6a11ca685ea182409069a9c4\",\n                    \"name\": \"Kela\",\n                    \"slug\": \"kela\",\n                    \"price\": 100,\n                    \"currency\": \"usd\",\n                    \"interval\": \"month\",\n                    \"isActive\": true\n                },\n                \"provider\": \"stripe\",\n                \"stripeCustomerId\": \"cus_UZQfLoC3YJ6egC\",\n                \"stripeCheckoutSessionId\": \"cs_test_a1xc6fIoeaPlwv4vD01Y1uGGAl5emfFDpSqXw5T7FcT2HY6u0uHtLQ8aG1\",\n                \"stripePriceId\": \"price_1TaHf2CrJrP9cZOrtc2S4JoV\",\n                \"status\": \"active\",\n                \"priceAtPurchase\": 100,\n                \"currency\": \"usd\",\n                \"interval\": \"month\",\n                \"autoRenew\": true,\n                \"cancelAtPeriodEnd\": false,\n                \"isCurrent\": true,\n                \"createdAt\": \"2026-05-23T15:49:38.385Z\",\n                \"updatedAt\": \"2026-05-23T15:54:45.860Z\",\n                \"__v\": 0,\n                \"stripeSubscriptionId\": \"sub_1TaHoTCrJrP9cZOryDxmmw6w\",\n                \"expiresAt\": \"2026-06-23T15:50:07.000Z\",\n                \"startsAt\": \"2026-05-23T15:50:07.000Z\",\n                \"stripeSubscriptionItemId\": \"si_UZQf8PVL4fdnSZ\",\n                \"upgradedAt\": \"2026-05-23T15:54:45.857Z\",\n                \"upgradedFromPlanId\": \"6a11cb735ea182409069a9c7\"\n            }\n        ],\n        \"total\": 1\n    }\n}"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "name": "Webhooks",
+      "item": [
+        {
+          "name": "Stripe Webhook",
+          "request": {
+            "method": "POST",
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json",
+                "disabled": false
+              }
+            ],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"id\": \"evt_test_webhook\",\n  \"object\": \"event\",\n  \"type\": \"checkout.session.completed\",\n  \"data\": {\n    \"object\": {}\n  }\n}",
+              "options": {
+                "raw": {
+                  "language": "json"
+                }
+              }
+            },
+            "url": {
+              "raw": "{{base_url}}/api/v1/webhooks/stripe",
+              "host": [
+                "{{base_url}}"
+              ],
+              "path": [
+                "api",
+                "v1",
+                "webhooks",
+                "stripe"
+              ]
+            },
+            "description": "Stripe webhook receiver endpoint. Validate Stripe-Signature when processing real events."
+          },
+          "response": []
+        }
+      ]
+    }
+  ],
+  "variable": [
+    {
+      "key": "base_url",
+      "value": ""
+    },
+    {
+      "key": "clientAccessToken",
+      "value": ""
     }
   ]
 }

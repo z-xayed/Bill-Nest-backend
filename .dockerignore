@@ -4,5 +4,10 @@ logs
 .env
 .git
 .gitignore
-postman
 README.md
+docs
+*.log
+npm-debug.log*
+yarn-error.log
+.vscode
+.idea
