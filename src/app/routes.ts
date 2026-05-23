@@ -10,7 +10,7 @@ router.get('/health', (_req, res) => {
   return sendSuccess(res, 200, 'Bill-Nest API is running', { status: 'ok' });
 });
 
-router.get('/', (_req, res) => {
+router.get('/docs', (_req, res) => {
   return sendSuccess(res, 200, 'Bill-Nest API documentation overview', {
     baseUrl: '/api/v1',
     Author: "Zayed Iqbal",

@@ -38,6 +38,7 @@ app.get('/', (_req, res) => {
     success: true,
     message: 'Welcome to Bill-Nest Backend API',
     data: {
+      Author: "Zayed Iqbal",
       name: 'Bill-Nest Backend',
       postman: 'https://documenter.getpostman.com/view/55148439/2sBXwjwuCR',
       description:
