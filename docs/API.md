@@ -671,6 +671,31 @@ Response example:
 
 Main error codes: `AUTH_REQUIRED`, `VALIDATION_ERROR`, `NO_ACTIVE_SUBSCRIPTION`, `SUBSCRIPTION_NOT_ACTIVE`, `SUBSCRIPTION_EXPIRED`, `IMMEDIATE_CANCEL_NOT_ALLOWED`, `SUBSCRIPTION_NOT_READY_FOR_CANCEL`, `STRIPE_SUBSCRIPTION_CANCEL_FAILED`
 
+### PATCH `/api/v1/subscriptions/resume`
+
+- Auth: Yes (`Bearer accessToken`)
+- Role: authenticated user
+
+Body:
+
+```json
+{}
+```
+
+Response example:
+
+```json
+{
+  "success": true,
+  "message": "Subscription auto-renew resumed successfully",
+  "data": {
+    "subscription": {}
+  }
+}
+```
+
+Main error codes: `AUTH_REQUIRED`, `NO_ACTIVE_SUBSCRIPTION`, `SUBSCRIPTION_NOT_ACTIVE`, `SUBSCRIPTION_EXPIRED`, `SUBSCRIPTION_NOT_READY_FOR_RESUME`, `STRIPE_SUBSCRIPTION_RESUME_FAILED`
+
 ## Webhooks
 
 ### POST `/api/v1/webhooks/stripe`

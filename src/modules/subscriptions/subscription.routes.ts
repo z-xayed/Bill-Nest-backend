@@ -8,6 +8,7 @@ import {
   getAllSubscribedUsersController,
   getCurrentSubscriptionController,
   purchaseSubscriptionController,
+  resumeSubscriptionController,
   upgradeSubscriptionController,
 } from './subscription.controller';
 import {
@@ -47,5 +48,6 @@ router.patch(
   validateRequest(cancelSubscriptionValidationSchema),
   asyncHandler(cancelSubscriptionController),
 );
+router.patch('/resume', authMiddleware, asyncHandler(resumeSubscriptionController));
 
 export const subscriptionRoutes = router;

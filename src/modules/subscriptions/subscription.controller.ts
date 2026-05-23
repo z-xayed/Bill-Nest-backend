@@ -6,6 +6,7 @@ import {
   getAllSubscribedUsers,
   getCurrentSubscription,
   purchaseSubscription,
+  resumeSubscription,
   upgradeSubscription,
 } from './subscription.service';
 
@@ -36,6 +37,13 @@ export const upgradeSubscriptionController = async (req: Request, res: Response)
 
 export const cancelSubscriptionController = async (req: Request, res: Response) => {
   const result = await cancelSubscription(req.user!.userId, req.body);
+  return sendSuccess(res, httpStatus.OK, result.message, {
+    subscription: result.subscription,
+  });
+};
+
+export const resumeSubscriptionController = async (req: Request, res: Response) => {
+  const result = await resumeSubscription(req.user!.userId);
   return sendSuccess(res, httpStatus.OK, result.message, {
     subscription: result.subscription,
   });

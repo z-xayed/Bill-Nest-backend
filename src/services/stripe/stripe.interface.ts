@@ -41,3 +41,7 @@ export type StripeSubscriptionPriceUpdateInput = {
   userId: string;
   newPlanId: string;
 };
+
+export type StripeSubscriptionResumeInput = {
+  stripeSubscriptionId: string;
+};

@@ -9,6 +9,7 @@ import {
   StripeProductUpdateInput,
   StripeRecurringPriceInput,
   StripeSubscriptionPriceUpdateInput,
+  StripeSubscriptionResumeInput,
 } from './stripe.interface';
 
 export const createStripeProduct = async (payload: StripeProductInput) => {
@@ -185,6 +186,26 @@ export const cancelStripeSubscriptionAtPeriodEnd = async (
       'Failed to cancel Stripe subscription at period end',
       502,
       'STRIPE_SUBSCRIPTION_CANCEL_FAILED',
+    );
+  }
+};
+
+export const resumeStripeSubscription = async (
+  payload: StripeSubscriptionResumeInput,
+) => {
+  try {
+    return await stripe.subscriptions.update(payload.stripeSubscriptionId, {
+      cancel_at_period_end: false,
+    });
+  } catch (error) {
+    logger.error('Stripe subscription resume failed', {
+      error,
+      stripeSubscriptionId: payload.stripeSubscriptionId,
+    });
+    throw new AppError(
+      'Failed to resume Stripe subscription auto-renew',
+      502,
+      'STRIPE_SUBSCRIPTION_RESUME_FAILED',
     );
   }
 };

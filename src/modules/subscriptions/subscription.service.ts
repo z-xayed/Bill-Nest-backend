@@ -7,6 +7,7 @@ import {
   cancelStripeSubscriptionAtPeriodEnd,
   createSubscriptionCheckoutSession,
   getOrCreateStripeCustomer,
+  resumeStripeSubscription,
   updateStripeSubscriptionPrice,
 } from '../../services/stripe/stripe.service';
 import { Plan } from '../plans/plan.model';
@@ -18,7 +19,7 @@ import {
   UpgradeSubscriptionPayload,
 } from './subscription.interface';
 import { Subscription } from './subscription.model';
-import { isSubscriptionCurrentlyActive } from './subscription.utils';
+import { isSubscriptionCurrentlyActive, mapStripeSubscriptionStatus } from './subscription.utils';
 
 const getCurrentSubscriptionOrThrow = async (userId: string) => {
   const currentSubscription = await Subscription.findOne({
@@ -276,6 +277,84 @@ export const cancelSubscription = async (
   return {
     subscription: currentSubscription,
     message: 'Subscription cancellation scheduled successfully',
+  };
+};
+
+export const resumeSubscription = async (userId: string) => {
+  const currentSubscription = await Subscription.findOne({
+    userId,
+    isCurrent: true,
+  });
+
+  if (!currentSubscription) {
+    throw new AppError('No active subscription found', 404, 'NO_ACTIVE_SUBSCRIPTION');
+  }
+
+  if (!currentSubscription.expiresAt) {
+    throw new AppError('Subscription is not active', 400, 'SUBSCRIPTION_NOT_ACTIVE', {
+      currentStatus: currentSubscription.status,
+    });
+  }
+
+  if (currentSubscription.expiresAt.getTime() <= Date.now()) {
+    currentSubscription.status = 'expired';
+    currentSubscription.isCurrent = false;
+    await currentSubscription.save();
+    throw new AppError('Subscription has expired', 400, 'SUBSCRIPTION_EXPIRED');
+  }
+
+  if (
+    currentSubscription.status !== 'active' &&
+    currentSubscription.status !== 'canceling'
+  ) {
+    throw new AppError('Subscription is not active', 400, 'SUBSCRIPTION_NOT_ACTIVE', {
+      currentStatus: currentSubscription.status,
+    });
+  }
+
+  const isScheduledForCancellation =
+    currentSubscription.status === 'canceling' || currentSubscription.cancelAtPeriodEnd;
+
+  if (!isScheduledForCancellation) {
+    return {
+      subscription: currentSubscription,
+      message: `Subscription is not scheduled for cancellation. Current status: ${currentSubscription.status}.`,
+    };
+  }
+
+  if (!currentSubscription.stripeSubscriptionId) {
+    throw new AppError(
+      'Subscription is not ready for resume',
+      400,
+      'SUBSCRIPTION_NOT_READY_FOR_RESUME',
+    );
+  }
+
+  const stripeSubscription = await resumeStripeSubscription({
+    stripeSubscriptionId: currentSubscription.stripeSubscriptionId,
+  });
+
+  currentSubscription.status = mapStripeSubscriptionStatus(
+    stripeSubscription.status,
+    stripeSubscription.cancel_at_period_end ?? false,
+  );
+  currentSubscription.autoRenew = true;
+  currentSubscription.cancelAtPeriodEnd = false;
+  currentSubscription.canceledAt = undefined;
+  currentSubscription.isCurrent = !['canceled', 'expired', 'failed'].includes(
+    currentSubscription.status,
+  );
+  await currentSubscription.save();
+
+  logger.info('Subscription auto-renew resumed', {
+    userId,
+    subscriptionId: currentSubscription._id.toString(),
+    stripeSubscriptionId: currentSubscription.stripeSubscriptionId,
+  });
+
+  return {
+    subscription: currentSubscription,
+    message: 'Subscription auto-renew resumed successfully',
   };
 };
 
